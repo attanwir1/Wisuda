@@ -1,0 +1,1678 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graduation Memory & Social Chat - TPQ AT TANWIR</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              emerald: {
+                50: "#f0fdf4",
+                100: "#dcfce7",
+                800: "#166534",
+                900: "#14532d",
+                950: "#022c22",
+              },
+              gold: {
+                100: "#fef3c7",
+                400: "#fbbf24",
+                500: "#f59e0b",
+                600: "#d97706",
+              },
+            },
+            fontFamily: {
+              serif: ["Cinzel", "Playfair Display", "serif"],
+              sans: ["Plus Jakarta Sans", "Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome & Lucide Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Favicon Resmi AT TANWIR -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co.com/mC5QtRt2/LOGO-PONPES.png" />
+
+    <style>
+      /* Custom Styles & Glassmorphism Blur Customization */
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: radial-gradient(circle at center, #022c22 0%, #011510 100%);
+        color: #f3f4f6;
+        overflow-x: hidden;
+      }
+      .font-cinzel {
+        font-family: "Cinzel", serif;
+      }
+      .glass {
+        background: rgba(2, 44, 34, 0.45);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(251, 191, 36, 0.15);
+      }
+      .glass-premium {
+        background: linear-gradient(135deg, rgba(2, 44, 34, 0.7) 0%, rgba(1, 21, 16, 0.85) 100%);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(251, 191, 36, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      }
+      .glow-gold:hover {
+        box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
+        transition: all 0.4s ease;
+      }
+      .text-glow {
+        text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(2, 44, 34, 0.2);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(251, 191, 36, 0.3);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(251, 191, 36, 0.5);
+      }
+      /* Floating particles animation */
+      @keyframes float {
+        0% {
+          transform: translateY(0px) rotate(0deg);
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-120px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+      .particle {
+        position: absolute;
+        list-style: none;
+        display: block;
+        background: radial-gradient(circle, rgba(251, 191, 36, 0.6) 0%, rgba(251, 191, 36, 0) 70%);
+        border-radius: 50%;
+        bottom: -50px;
+        animation: float 15s infinite linear;
+        pointer-events: none;
+      }
+      /* Shimmer effect for loading placeholders */
+      .shimmer {
+        background: linear-gradient(90deg, rgba(2, 44, 34, 0.4) 25%, rgba(251, 191, 36, 0.15) 50%, rgba(2, 44, 34, 0.4) 75%);
+        background-size: 200% 100%;
+        animation: loading-shimmer 1.5s infinite;
+      }
+      @keyframes loading-shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+
+      /* Super Responsive Grid columns for Masonry */
+      .gallery-container-fluid {
+        column-count: 1;
+        column-gap: 1.25rem;
+      }
+      @media (min-width: 480px) {
+        .gallery-container-fluid {
+          column-count: 2;
+          column-gap: 1.5rem;
+        }
+      }
+      @media (min-width: 768px) {
+        .gallery-container-fluid {
+          column-count: 3;
+          column-gap: 1.75rem;
+        }
+      }
+      @media (min-width: 1024px) {
+        .gallery-container-fluid {
+          column-count: 4;
+          column-gap: 1.75rem;
+        }
+      }
+      .gallery-item-card {
+        break-inside: avoid;
+        margin-bottom: 1.5rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen relative overflow-x-hidden pb-24 sm:pb-0">
+    <!-- Floating Particles Container -->
+    <ul id="particles" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></ul>
+
+    <!-- BACKGROUND MUSIC PLAYER -->
+    <div
+      id="music-container"
+      class="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 glass rounded-full px-4 py-2.5 flex items-center gap-3 shadow-lg transition-transform duration-300 hover:scale-105 border border-gold-400/20 max-w-[calc(100vw-2rem)]"
+    >
+      <button id="btn-music" class="w-9 h-9 rounded-full bg-gold-500/20 hover:bg-gold-500/30 text-gold-400 flex items-center justify-center transition-all duration-300 focus:outline-none shrink-0">
+        <i id="music-icon" class="fa-solid fa-play text-xs sm:text-sm"></i>
+      </button>
+      <div class="flex flex-col text-[10px] w-16 sm:w-24 shrink-0">
+        <span class="font-bold text-white tracking-wide truncate">Tujuh Belas</span>
+        <span class="text-emerald-300 opacity-80 font-medium truncate">Tulus</span>
+      </div>
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <i class="fa-solid fa-volume-low text-[10px] sm:text-xs text-emerald-300"></i>
+        <input id="volume-slider" type="range" min="0" max="1" step="0.1" value="0.4" class="w-10 sm:w-14 h-1 rounded-lg appearance-none bg-emerald-950 accent-gold-500 cursor-pointer" />
+      </div>
+      <!-- Visualizer Bars -->
+      <div id="visualizer" class="hidden xs:flex gap-0.5 items-end h-6 w-6 sm:w-8 pb-1 shrink-0">
+        <div class="w-0.5 bg-gold-400 h-1 transition-all duration-200"></div>
+        <div class="w-0.5 bg-gold-400 h-2 transition-all duration-200"></div>
+        <div class="w-0.5 bg-gold-400 h-1 transition-all duration-200"></div>
+        <div class="w-0.5 bg-gold-400 h-3 transition-all duration-200"></div>
+      </div>
+    </div>
+    <!-- Hidden Audio Tag with High Quality Islamic Instrumental -->
+    <audio id="bg-audio" loop preload="auto">
+      <source src="TULUS - Tujuh Belas Official Music Video.mp3" type="audio/mp3" />
+    </audio>
+
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen" class="fixed inset-0 z-50 bg-emerald-950 flex flex-col items-center justify-center transition-opacity duration-1000">
+      <div
+        class="absolute inset-0 bg-cover bg-center opacity-10 filter blur-md"
+        style="background-image: url(&quot;https://i.ibb.co.com/C56gDmPH/Whats-App-Image-2026-05-31-at-13-21-02.jpg&quot;)"
+      ></div>
+      <div class="relative z-10 flex flex-col items-center text-center px-4">
+        <!-- Islamic Geometrical Accent Logo Resmi -->
+        <div class="w-20 h-20 sm:w-24 sm:h-24 mb-6 relative animate-pulse flex items-center justify-center">
+          <div class="absolute inset-0 rounded-full bg-gold-400/15 animate-ping"></div>
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-gold-400 flex items-center justify-center bg-emerald-900/90 overflow-hidden shadow-[0_0_20px_rgba(251,191,36,0.3)] p-2">
+            <img src="https://i.ibb.co.com/mC5QtRt2/LOGO-PONPES.png" alt="Logo TPQ AT TANWIR" class="w-full h-full object-contain" />
+          </div>
+        </div>
+        <h1 class="font-cinzel text-xl sm:text-2xl md:text-3xl font-bold text-gold-400 tracking-widest text-glow mb-1">TPQ AT TANWIR</h1>
+        <p class="text-emerald-100 text-xs sm:text-sm tracking-widest mb-6 opacity-75">WISUDA KELAS 6 ANGKATAN 2026</p>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-2 h-2 rounded-full bg-gold-400 animate-bounce" style="animation-delay: 0.1s"></div>
+          <div class="w-2 h-2 rounded-full bg-gold-400 animate-bounce" style="animation-delay: 0.2s"></div>
+          <div class="w-2 h-2 rounded-full bg-gold-400 animate-bounce" style="animation-delay: 0.3s"></div>
+        </div>
+        <span class="text-[11px] sm:text-xs text-emerald-300 font-medium tracking-wider" id="loading-text">Memuat Kenangan Suci...</span>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS CONTAINER -->
+    <div id="toast-container" class="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full"></div>
+
+    <!-- MAIN APP WRAPPER (HIDDEN AT START) -->
+    <div id="app" class="hidden min-h-screen flex flex-col">
+      <!-- AUTH/LOGIN VIEW -->
+      <div id="view-login" class="flex-1 flex items-center justify-center px-4 py-8 sm:py-12 relative">
+        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url(&quot;https://i.ibb.co.com/C56gDmPH/Whats-App-Image-2026-05-31-at-13-21-02.jpg&quot;)"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-emerald-950/80 via-emerald-950/95 to-emerald-950/80"></div>
+
+        <div class="relative z-10 w-full max-w-md glass-premium rounded-3xl p-6 sm:p-8 md:p-10 text-center shadow-2xl transition-all duration-500 hover:border-gold-400/40">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-6 rounded-2xl bg-emerald-900/50 flex items-center justify-center border border-gold-400/30 overflow-hidden p-2">
+            <img src="https://i.ibb.co.com/mC5QtRt2/LOGO-PONPES.png" alt="Logo TPQ AT TANWIR" class="w-full h-full object-contain" />
+          </div>
+          <h2 class="font-cinzel text-xl sm:text-2xl font-bold text-gold-400 tracking-wide text-glow">Masuk Gerbang Kenangan</h2>
+          <p class="text-xs text-emerald-200 mt-2 opacity-80 leading-relaxed">Masukkan nama lengkap Anda untuk bernostalgia & bergabung dalam kehangatan wisuda TPQ AT TANWIR.</p>
+
+          <form id="login-form" class="mt-8 space-y-6">
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gold-400/50">
+                <i class="fa-regular fa-user text-sm"></i>
+              </span>
+              <input
+                type="text"
+                id="login-name"
+                required
+                placeholder="Nama Lengkap Anda..."
+                class="w-full bg-emerald-950/60 border border-gold-400/20 rounded-2xl py-3.5 pl-11 pr-4 text-white placeholder-emerald-100/40 focus:outline-none focus:border-gold-400/80 focus:ring-1 focus:ring-gold-400/80 transition-all text-xs sm:text-sm tracking-wide"
+              />
+            </div>
+            <button
+              type="submit"
+              id="btn-login-submit"
+              class="w-full bg-gradient-to-r from-gold-600 to-gold-400 text-emerald-950 font-bold tracking-widest text-xs uppercase py-4 rounded-2xl hover:brightness-110 active:scale-98 transition-all glow-gold shadow-lg flex items-center justify-center gap-2"
+            >
+              <span>BUKA MEMORI</span>
+              <i class="fa-solid fa-feather-pointed"></i>
+            </button>
+          </form>
+          <div class="mt-6 text-[10px] text-emerald-300/60 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Satu nama unik hanya berlaku untuk satu akun per perangkat</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN LAYOUT (HOME, GALLERY, CHAT, BOARD) -->
+      <div id="view-main" class="hidden flex-1 flex flex-col">
+        <!-- FLOATING NAVIGATION BAR -->
+        <nav class="sticky top-0 z-40 glass border-b border-gold-400/10 shadow-md">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+              <div class="flex items-center gap-2.5 sm:gap-3">
+                <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-emerald-900/50 flex items-center justify-center border border-gold-400/30 overflow-hidden p-1">
+                  <img src="https://i.ibb.co.com/mC5QtRt2/LOGO-PONPES.png" alt="Logo TPQ AT TANWIR" class="w-full h-full object-contain" />
+                </div>
+                <div>
+                  <h1 class="font-cinzel text-sm sm:text-md md:text-lg font-bold text-gold-400 tracking-wider">TPQ AT TANWIR</h1>
+                  <p class="text-[8px] sm:text-[9px] text-emerald-200/80 tracking-widest font-semibold uppercase">Graduation Memory</p>
+                </div>
+              </div>
+
+              <!-- Menu Desktop - Gaps improved to 3 (gap-3) -->
+              <div class="hidden md:flex items-center gap-3">
+                <button
+                  onclick="switchTab('home')"
+                  class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider text-emerald-200 hover:bg-gold-400/10 hover:text-gold-400 transition-all duration-300"
+                  id="nav-home"
+                >
+                  Beranda
+                </button>
+                <button
+                  onclick="switchTab('gallery')"
+                  class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider text-emerald-200 hover:bg-gold-400/10 hover:text-gold-400 transition-all duration-300"
+                  id="nav-gallery"
+                >
+                  Galeri Wisuda
+                </button>
+                <button
+                  onclick="switchTab('chat')"
+                  class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider text-emerald-200 hover:bg-gold-400/10 hover:text-gold-400 transition-all duration-300"
+                  id="nav-chat"
+                >
+                  Grup Angkatan
+                </button>
+                <button
+                  onclick="switchTab('memories')"
+                  class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider text-emerald-200 hover:bg-gold-400/10 hover:text-gold-400 transition-all duration-300"
+                  id="nav-memories"
+                >
+                  Pesan & Doa
+                </button>
+                <button
+                  onclick="switchTab('admin')"
+                  class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider text-emerald-200 hover:bg-gold-400/10 hover:text-gold-400 transition-all duration-300"
+                  id="nav-admin"
+                >
+                  Admin
+                </button>
+              </div>
+
+              <!-- User Profile Status & Logout -->
+              <div class="flex items-center gap-3">
+                <div class="hidden sm:flex flex-col text-right">
+                  <span class="text-xs font-bold text-white tracking-wide" id="user-display-name">-</span>
+                  <span class="text-[9px] text-gold-400/80 flex items-center justify-end gap-1 font-semibold">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                    <span>Aktif</span>
+                  </span>
+                </div>
+                <button id="btn-logout" class="p-2.5 sm:p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all duration-300" title="Keluar">
+                  <i class="fa-solid fa-power-off text-xs sm:text-sm"></i>
+                </button>
+                <!-- Mobile Menu Trigger -->
+                <button id="mobile-menu-toggle" class="md:hidden p-2.5 sm:p-3 rounded-xl bg-gold-400/10 text-gold-400 border border-gold-400/20 hover:bg-gold-400/20 transition-all">
+                  <i class="fa-solid fa-bars-staggered text-sm"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Menu Container - Gaps and spacing improved with space-y-3 and py-3.5 -->
+          <div id="mobile-menu" class="hidden md:hidden px-5 pt-3.5 pb-5 space-y-3 bg-emerald-950/95 backdrop-blur-md border-t border-gold-400/10">
+            <button
+              onclick="switchTab('home')"
+              class="w-full text-left px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold tracking-wide text-emerald-100 hover:bg-gold-400/10 hover:text-gold-400 block"
+              id="mob-nav-home"
+            >
+              Beranda
+            </button>
+            <button
+              onclick="switchTab('gallery')"
+              class="w-full text-left px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold tracking-wide text-emerald-100 hover:bg-gold-400/10 hover:text-gold-400 block"
+              id="mob-nav-gallery"
+            >
+              Galeri Wisuda
+            </button>
+            <button
+              onclick="switchTab('chat')"
+              class="w-full text-left px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold tracking-wide text-emerald-100 hover:bg-gold-400/10 hover:text-gold-400 block"
+              id="mob-nav-chat"
+            >
+              Grup Angkatan
+            </button>
+            <button
+              onclick="switchTab('memories')"
+              class="w-full text-left px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold tracking-wide text-emerald-100 hover:bg-gold-400/10 hover:text-gold-400 block"
+              id="mob-nav-memories"
+            >
+              Pesan & Doa
+            </button>
+            <button
+              onclick="switchTab('admin')"
+              class="w-full text-left px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold tracking-wide text-emerald-100 hover:bg-gold-400/10 hover:text-gold-400 block"
+              id="mob-nav-admin"
+            >
+              Admin
+            </button>
+          </div>
+        </nav>
+
+        <!-- VIEW: HOME (BERANDA) -->
+        <section id="tab-home" class="tab-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12 space-y-12 md:space-y-16 flex-1">
+          <!-- HERO SECTION -->
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl glass-premium p-6 sm:p-8 md:p-16 flex flex-col lg:flex-row items-center gap-8 lg:gap-10">
+            <div class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url(&quot;https://i.ibb.co.com/C56gDmPH/Whats-App-Image-2026-05-31-at-13-21-02.jpg&quot;)"></div>
+            <div class="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-emerald-950 via-emerald-950/90 to-transparent"></div>
+
+            <div class="relative z-10 flex-1 space-y-5 sm:space-y-6 text-center lg:text-left w-full">
+              <span
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gold-400/10 border border-gold-400/20 text-[10px] md:text-xs font-semibold text-gold-400 tracking-wider uppercase"
+              >
+                <i class="fa-solid fa-star-and-crescent animate-spin-slow"></i>
+                Selamat & Sukses atas Kelulusan
+              </span>
+              <h2 class="font-cinzel text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-wide text-white leading-tight">
+                Wisuda Kelulusan <br />
+                <span class="text-gold-400 text-glow">TPQ AT TANWIR</span>
+              </h2>
+              <p class="text-xs sm:text-sm md:text-base text-emerald-100 opacity-80 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                Hari ini, sebuah gerbang petualangan baru terbuka untukmu. Berbekal ilmu Al-Qur’an dan cinta suci, jadilah bintang penuntun yang menyinari peradaban dunia dengan kemuliaan akhlak.
+              </p>
+              <!-- Hero buttons spacing improved with flex-col on mobile and gap-4 sm:gap-6 -->
+              <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-5 pt-3 w-full sm:w-auto">
+                <button
+                  onclick="switchTab('gallery')"
+                  class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-gold-600 to-gold-400 text-emerald-950 font-bold text-xs uppercase tracking-widest hover:brightness-110 hover:scale-102 transition-all shadow-lg glow-gold flex items-center justify-center gap-2"
+                >
+                  <span>Lihat Kenangan</span>
+                  <i class="fa-solid fa-camera-retro"></i>
+                </button>
+                <button
+                  onclick="switchTab('chat')"
+                  class="w-full sm:w-auto px-8 py-4 rounded-xl bg-emerald-900/40 hover:bg-emerald-900/60 text-gold-400 border border-gold-400/20 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                >
+                  <span>Grup Angkatan</span>
+                  <i class="fa-regular fa-comments"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- HERO SLIDESHOW -->
+            <div class="relative z-10 w-full lg:w-5/12 h-56 sm:h-64 md:h-80 rounded-2xl overflow-hidden border border-gold-400/20 shadow-xl shrink-0">
+              <div id="hero-slider" class="w-full h-full relative">
+                <!-- Slides dynamically added -->
+              </div>
+              <div class="absolute bottom-4 left-4 right-4 flex justify-between items-center bg-black/45 backdrop-blur-sm p-2.5 sm:p-3 rounded-xl border border-white/10">
+                <span class="text-[9px] sm:text-[10px] font-semibold text-white/90">Graduation Album Showcase</span>
+                <div class="flex gap-1" id="hero-slider-dots"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- HISTORIC COUNTER STATS (SUPER RESPONSIVE GRID WITH GOOD GAPS) -->
+          <div class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6">
+            <div class="glass p-5 sm:p-6 rounded-2xl text-center flex flex-col justify-center border-l-4 border-l-gold-400 transition-all hover:translate-y-[-4px]">
+              <span class="text-2xl sm:text-3xl md:text-4xl font-bold font-cinzel text-gold-400 mb-1" id="stat-students">10</span>
+              <span class="text-[9px] sm:text-[10px] md:text-xs font-semibold tracking-wider text-emerald-200/80 uppercase">Wisudawan Kece</span>
+            </div>
+            <div class="glass p-5 sm:p-6 rounded-2xl text-center flex flex-col justify-center border-l-4 border-l-emerald-400 transition-all hover:translate-y-[-4px]">
+              <span class="text-2xl sm:text-3xl md:text-4xl font-bold font-cinzel text-emerald-400 mb-1" id="stat-memories">0</span>
+              <span class="text-[9px] sm:text-[10px] md:text-xs font-semibold tracking-wider text-emerald-200/80 uppercase">Doa & Harapan</span>
+            </div>
+            <div class="glass p-5 sm:p-6 rounded-2xl text-center flex flex-col justify-center border-l-4 border-l-gold-400 transition-all hover:translate-y-[-4px]">
+              <span class="text-2xl sm:text-3xl md:text-4xl font-bold font-cinzel text-gold-400 mb-1" id="stat-messages">0</span>
+              <span class="text-[9px] sm:text-[10px] md:text-xs font-semibold tracking-wider text-emerald-200/80 uppercase">Pesan Terkirim</span>
+            </div>
+            <div class="glass p-5 sm:p-6 rounded-2xl text-center flex flex-col justify-center border-l-4 border-l-blue-400 transition-all hover:translate-y-[-4px]">
+              <span class="text-2xl sm:text-3xl md:text-4xl font-bold font-cinzel text-blue-400 mb-1 animate-pulse" id="stat-online">1</span>
+              <span class="text-[9px] sm:text-[10px] md:text-xs font-semibold tracking-wider text-emerald-200/80 uppercase">Online Bersama</span>
+            </div>
+          </div>
+
+          <!-- CINEMATIC MEMORIES WORDS -->
+          <div class="relative bg-gradient-to-br from-emerald-950/90 to-emerald-950/40 border border-gold-400/10 rounded-3xl p-6 sm:p-8 md:p-12 text-center max-w-4xl mx-auto space-y-4 sm:space-y-6">
+            <div class="text-gold-400 text-2xl sm:text-3xl opacity-40"><i class="fa-solid fa-quote-left"></i></div>
+            <p class="font-serif text-sm sm:text-base md:text-lg lg:text-2xl text-white/90 italic font-medium leading-relaxed" id="dynamic-quote">
+              "Membaca Al-Qur'an adalah cahaya di dalam kegelapan, petunjuk di kala kebimbangan, dan teman sejati di akhirat kelak."
+            </p>
+            <div class="flex flex-col items-center">
+              <div class="h-[1px] w-12 sm:w-16 bg-gold-400 my-3 sm:my-4"></div>
+              <span class="text-[10px] sm:text-xs uppercase tracking-widest text-gold-400 font-bold" id="quote-author">Ustadz Pembina At-Tanwir</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: GALLERY -->
+        <section id="tab-gallery" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12 space-y-8 md:space-y-12 flex-1 w-full">
+          <div class="text-center space-y-2.5 sm:space-y-3">
+            <h2 class="font-cinzel text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-wide">Galeri Kenangan Suci</h2>
+            <p class="text-xs sm:text-sm text-emerald-200/80 max-w-2xl mx-auto">
+              Momen-momen penuh haru, perjuangan, serta kebahagiaan para santri kelas 6 TPQ At-Tanwir tanpa keterangan tambahan—murni kenangan abadi.
+            </p>
+          </div>
+
+          <!-- Gallery Upload Box (User Custom Upload Allowed!) - Spacing and sizing improved -->
+          <div class="glass p-6 sm:p-8 rounded-2xl border border-gold-400/20 max-w-xl mx-auto w-full">
+            <h3 class="text-xs uppercase tracking-wider font-bold text-gold-400 mb-4 flex items-center gap-1.5 justify-center">
+              <i class="fa-solid fa-cloud-arrow-up animate-bounce"></i>
+              Unggah Foto Kenangan Anda
+            </h3>
+            <form id="upload-form" class="space-y-4">
+              <div class="flex gap-2">
+                <input
+                  type="text"
+                  id="upload-caption"
+                  required
+                  placeholder="Tulis nama momen singkat..."
+                  class="w-full bg-emerald-950/60 border border-gold-400/20 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-gold-400"
+                />
+              </div>
+              <!-- Stacking gaps adjusted to py-3.5 on mobile with gap-4 -->
+              <div class="flex flex-col sm:flex-row gap-4">
+                <input type="file" id="upload-file" accept="image/*" required class="hidden" />
+                <button
+                  type="button"
+                  onclick="document.getElementById('upload-file').click()"
+                  class="flex-1 bg-emerald-900/40 hover:bg-emerald-900/70 border border-gold-400/20 text-emerald-200 text-xs font-semibold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2"
+                >
+                  <i class="fa-regular fa-image text-gold-400 text-sm"></i>
+                  <span id="file-chosen" class="truncate max-w-[150px]">Pilih Gambar</span>
+                </button>
+                <button
+                  type="submit"
+                  class="bg-gradient-to-r from-gold-600 to-gold-400 text-emerald-950 text-xs font-bold px-8 py-3.5 rounded-xl hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2"
+                >
+                  <span>Bagikan</span>
+                  <i class="fa-solid fa-paper-plane"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Fluid Masonry Gallery Layout (ONLY PHOTOS, NO META LABELS) -->
+          <div id="masonry-gallery" class="gallery-container-fluid w-full">
+            <!-- Images added dynamically -->
+          </div>
+        </section>
+
+        <!-- VIEW: SOCIAL CHAT -->
+        <section id="tab-chat" class="tab-content hidden max-w-5xl mx-auto px-4 py-4 md:py-8 flex-1 flex flex-col h-[calc(100vh-5.5rem)] sm:h-[calc(100vh-6.5rem)] w-full">
+          <div class="glass-premium rounded-3xl flex-1 flex flex-col overflow-hidden border border-gold-400/15 shadow-2xl">
+            <!-- Chat Header -->
+            <div class="px-5 py-3.5 sm:px-6 sm:py-4 border-b border-gold-400/10 flex items-center justify-between bg-emerald-950/40">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gold-400/10 border border-gold-400/30 flex items-center justify-center text-gold-400 relative">
+                  <i class="fa-regular fa-comments text-md sm:text-lg"></i>
+                  <div class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-emerald-950 animate-pulse"></div>
+                </div>
+                <div>
+                  <h2 class="text-xs sm:text-sm md:text-base font-bold text-white tracking-wide">Majelis Obrolan Angkatan</h2>
+                  <p class="text-[9px] sm:text-[10px] text-emerald-300 font-medium flex items-center gap-1.5 mt-0.5"><span id="chat-online-count" class="font-bold">1</span> Aktif Berdiskusi</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-[8px] sm:text-[10px] px-2 py-1 rounded-full bg-gold-400/15 text-gold-400 font-bold border border-gold-400/20 tracking-wider">REALTIME</span>
+              </div>
+            </div>
+
+            <!-- Chat Messages Box -->
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-emerald-950/20 scroll-smooth">
+              <!-- Messages loaded dynamically -->
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="typing-indicator" class="px-5 py-2 text-xs text-emerald-300/60 font-semibold italic flex items-center gap-2 bg-emerald-950/10 opacity-0 transition-opacity duration-300">
+              <span class="flex gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold-400 animate-bounce"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-gold-400 animate-bounce" style="animation-delay: 0.1s"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-gold-400 animate-bounce" style="animation-delay: 0.2s"></span>
+              </span>
+              <span id="typing-username">Seseorang sedang menulis...</span>
+            </div>
+
+            <!-- Chat Input form - Improved typing area with better gaps -->
+            <form id="chat-form" class="p-3.5 sm:p-4 border-t border-gold-400/10 bg-emerald-950/40 flex gap-3 items-center">
+              <input
+                type="text"
+                id="chat-input"
+                required
+                placeholder="Tulis obrolan haru & hangat Anda..."
+                class="flex-1 bg-emerald-950/60 border border-gold-400/15 rounded-2xl py-3.5 px-5 text-xs sm:text-sm text-white placeholder-emerald-100/30 focus:outline-none focus:border-gold-400/60 focus:ring-1 focus:ring-gold-400/60 transition-all"
+              />
+              <button
+                type="submit"
+                class="bg-gradient-to-r from-gold-600 to-gold-400 text-emerald-950 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center hover:brightness-110 hover:scale-103 active:scale-97 transition-all shrink-0 shadow-md"
+              >
+                <i class="fa-solid fa-paper-plane text-xs sm:text-sm"></i>
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- VIEW: MEMORIES (PESAN & DOA) -->
+        <section id="tab-memories" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12 space-y-8 md:space-y-12 flex-1 w-full">
+          <div class="text-center space-y-2.5 sm:space-y-3">
+            <h2 class="font-cinzel text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-wide">Pohon Harapan & Doa</h2>
+            <p class="text-xs sm:text-sm text-emerald-200/80 max-w-2xl mx-auto">
+              Tinggalkan goresan kata penuh cinta, permohonan restu, atau cita-cita luhur Anda untuk seluruh teman seperjuangan TPQ At-Tanwir.
+            </p>
+          </div>
+
+          <!-- Memory Input Box - Sizing and button spacing polished -->
+          <div class="glass-premium rounded-3xl p-5 sm:p-8 max-w-xl mx-auto border border-gold-400/20 shadow-xl w-full">
+            <h3 class="font-cinzel text-sm sm:text-md font-bold text-gold-400 text-center mb-5 sm:mb-6 tracking-wide text-glow">Tulis Kartu Ucapan Anda</h3>
+            <form id="memory-form" class="space-y-5">
+              <div>
+                <textarea
+                  id="memory-text"
+                  rows="3.5"
+                  required
+                  placeholder="Tuliskan ucapan, doa tulus, atau harapan masa depan Anda..."
+                  class="w-full bg-emerald-950/60 border border-gold-400/20 rounded-xl p-4 text-xs sm:text-sm text-white placeholder-emerald-100/40 focus:outline-none focus:border-gold-400 transition-all"
+                ></textarea>
+              </div>
+              <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <span class="text-[9px] sm:text-[10px] text-emerald-300/60 font-semibold" id="char-counter">0 / 250 Karakter</span>
+                <button
+                  type="submit"
+                  class="w-full sm:w-auto bg-gradient-to-r from-gold-600 to-gold-400 text-emerald-950 font-bold text-xs uppercase tracking-widest py-3.5 px-6 rounded-xl hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 shrink-0"
+                >
+                  <span>Gantung Doa</span>
+                  <i class="fa-solid fa-heart"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Pinterest Memory Layout (Super Responsive Grid) -->
+          <div id="memory-container" class="columns-1 xs:columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6 space-y-4 sm:space-y-6 w-full">
+            <!-- Cards loaded dynamically -->
+          </div>
+        </section>
+
+        <!-- VIEW: ADMIN PANEL -->
+        <section id="tab-admin" class="tab-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12 space-y-8 md:space-y-12 flex-1 w-full">
+          <div class="text-center space-y-2.5 sm:space-y-3">
+            <h2 class="font-cinzel text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-wide">Pusat Administrasi & Moderasi</h2>
+            <p class="text-xs sm:text-sm text-emerald-200/80 max-w-2xl mx-auto">Kontrol, hapus obrolan buruk, moderasikan pesan, dan pantau perkembangan aktivitas portal memori.</p>
+          </div>
+
+          <!-- Simple Password Guard for Admin -->
+          <div id="admin-auth" class="glass-premium max-w-md mx-auto p-6 sm:p-8 rounded-3xl text-center border border-gold-400/20 w-full">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-5 rounded-2xl bg-gold-400/10 border border-gold-400/30 flex items-center justify-center text-gold-400">
+              <i class="fa-solid fa-user-shield text-lg sm:text-xl"></i>
+            </div>
+            <h3 class="font-cinzel text-md sm:text-lg font-bold text-gold-400 mb-2">Autentikasi Admin</h3>
+            <p class="text-[11px] sm:text-xs text-emerald-200/80 mb-6">Masukkan kode rahasia admin untuk mengaktifkan kontrol penuh.</p>
+            <div class="space-y-4">
+              <input
+                type="password"
+                id="admin-secret"
+                placeholder="Kode Rahasia Admin..."
+                class="w-full bg-emerald-950/60 border border-gold-400/20 rounded-xl py-3 px-4 text-center text-xs sm:text-sm text-white focus:outline-none focus:border-gold-400"
+              />
+              <button
+                onclick="unlockAdmin()"
+                class="w-full bg-gradient-to-r from-gold-600 to-gold-400 text-emerald-950 font-bold text-xs uppercase tracking-widest py-3.5 rounded-xl hover:brightness-110 active:scale-98 transition-all"
+              >
+                BUKA PANEL ADMIN
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Admin Panel -->
+          <div id="admin-panel" class="hidden space-y-8 sm:space-y-10 w-full">
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+              <div class="glass p-5 sm:p-6 rounded-2xl flex items-center justify-between">
+                <div>
+                  <h4 class="text-[10px] sm:text-xs text-emerald-300 uppercase font-bold tracking-wider mb-1">Total Pengguna Terdaftar</h4>
+                  <p class="text-xl sm:text-2xl font-bold text-white" id="admin-total-users">0</p>
+                </div>
+                <i class="fa-solid fa-users text-gold-400 text-xl sm:text-2xl opacity-40"></i>
+              </div>
+              <div class="glass p-5 sm:p-6 rounded-2xl flex items-center justify-between">
+                <div>
+                  <h4 class="text-[10px] sm:text-xs text-emerald-300 uppercase font-bold tracking-wider mb-1">Total Obrolan Grup</h4>
+                  <p class="text-xl sm:text-2xl font-bold text-white" id="admin-total-chats">0</p>
+                </div>
+                <i class="fa-regular fa-comments text-gold-400 text-xl sm:text-2xl opacity-40"></i>
+              </div>
+              <div class="glass p-5 sm:p-6 rounded-2xl flex items-center justify-between">
+                <div>
+                  <h4 class="text-[10px] sm:text-xs text-emerald-300 uppercase font-bold tracking-wider mb-1">Ucapan & Doa Terkumpul</h4>
+                  <p class="text-xl sm:text-2xl font-bold text-white" id="admin-total-memories">0</p>
+                </div>
+                <i class="fa-solid fa-heart text-gold-400 text-xl sm:text-2xl opacity-40"></i>
+              </div>
+            </div>
+
+            <!-- Split Actions Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+              <!-- Left: Obrolan Moderasi -->
+              <div class="glass rounded-3xl p-5 sm:p-6 border border-gold-400/10 flex flex-col h-[400px] sm:h-[500px]">
+                <h3 class="font-cinzel text-xs sm:text-sm font-bold text-gold-400 mb-4 tracking-wider uppercase border-b border-gold-400/10 pb-3 flex items-center gap-2">
+                  <i class="fa-regular fa-comments text-md"></i>
+                  Moderasi Obrolan Grup
+                </h3>
+                <div id="admin-chats-list" class="flex-1 overflow-y-auto space-y-3 pr-2">
+                  <!-- Admin Chats Dynamically Added -->
+                </div>
+              </div>
+
+              <!-- Right: Pesan/Memory Moderasi -->
+              <div class="glass rounded-3xl p-5 sm:p-6 border border-gold-400/10 flex flex-col h-[400px] sm:h-[500px]">
+                <h3 class="font-cinzel text-xs sm:text-sm font-bold text-gold-400 mb-4 tracking-wider uppercase border-b border-gold-400/10 pb-3 flex items-center gap-2">
+                  <i class="fa-solid fa-heart text-md"></i>
+                  Moderasi Pesan & Doa
+                </h3>
+                <div id="admin-memories-list" class="flex-1 overflow-y-auto space-y-3 pr-2">
+                  <!-- Admin Memories Dynamically Added -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="mt-auto glass border-t border-gold-400/10 py-5 sm:py-6 text-center text-[10px] sm:text-[11px] text-emerald-300/60 tracking-wider px-4">
+        <p>© 2026 TPQ AT TANWIR. All Sacred Memories Reserved.</p>
+        <p class="mt-1 font-serif text-[9px] sm:text-[10px] text-gold-400/60">"Cinta Al-Qur'an, Jaya Sepanjang Masa"</p>
+      </footer>
+    </div>
+
+    <!-- LIGHTBOX / FULLSCREEN POPUP FOR GALLERY (REMOVED TEXT LABELS AS REQUESTED) -->
+    <div id="lightbox" class="hidden fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 select-none">
+      <button id="lightbox-close" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-white hover:text-gold-400 text-xl sm:text-2xl transition-colors z-50 p-2 bg-emerald-950/50 rounded-full">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <!-- Swipe indicator for mobile -->
+      <div class="absolute bottom-6 text-center text-[9px] sm:text-[10px] text-white/50 tracking-widest sm:hidden pointer-events-none">
+        <i class="fa-solid fa-arrows-left-right animate-pulse mr-1"></i> GESER UNTUK MENUTUP
+      </div>
+      <div class="max-w-4xl max-h-[85vh] flex items-center justify-center relative touch-pan-y">
+        <img id="lightbox-img" src="" alt="Fullscreen view" class="max-w-full max-h-[80vh] object-contain rounded-lg border border-gold-400/15 shadow-2xl transition-transform duration-300" />
+      </div>
+    </div>
+
+    <script>
+      // BACKEND CONNECTION URL
+      const BACKEND_URL = "https://script.google.com/macros/s/AKfycbxYFShEuiQ_TEglVNGV89z6evrH_RsVYEyIKptUSs-z3eXY6Z3AC9UeKDQcmcEaekI/exec";
+
+      // Initial Public Graduation Images
+      const INITIAL_GALLERY = [
+        { id: "img-1", url: "https://i.ibb.co.com/C56gDmPH/Whats-App-Image-2026-05-31-at-13-21-02.jpg", caption: "Kebersamaan Wisudawan TPQ AT TANWIR Angkatan 2026" },
+        { id: "img-2", url: "https://i.ibb.co.com/3mbwpyyT/Whats-App-Image-2026-05-31-at-13-20-43.jpg", caption: "Khidmat Menyimak Untaian Doa & Pesan Kelulusan" },
+        { id: "img-3", url: "https://i.ibb.co.com/qHxSsHc/Whats-App-Image-2026-05-31-at-13-20-42-2.jpg", caption: "Senyum Haru Menyambut Gelar Baru Santri Berprestasi" },
+        { id: "img-4", url: "https://i.ibb.co.com/YTFvV7Hs/Whats-App-Image-2026-05-31-at-13-20-42-1.jpg", caption: "Keceriaan Seluruh Asatidz & Santri At-Tanwir" },
+        { id: "img-5", url: "https://i.ibb.co.com/KjgNzsW9/Whats-App-Image-2026-05-31-at-13-20-42.jpg", caption: "Prosesi Penyematan Samir & Piagam Penghargaan" },
+        { id: "img-6", url: "https://i.ibb.co.com/j9nZxw17/Whats-App-Image-2026-05-31-at-13-20-41-1.jpg", caption: "Apresiasi Syukur Bersama Wali Santri At-Tanwir" },
+        { id: "img-7", url: "https://i.ibb.co.com/003cqtz/Whats-App-Image-2026-05-31-at-13-20-41.jpg", caption: "Sungkeman Penuh Air Mata Kebahagiaan Orang Tua" },
+        { id: "img-8", url: "https://i.ibb.co.com/sJQRRSTr/Whats-App-Image-2026-05-31-at-13-20-40-1.jpg", caption: "Kenangan Berfoto Bersama Seluruh Dewan Asatidz" },
+        { id: "img-9", url: "https://i.ibb.co.com/5g0RT73G/Whats-App-Image-2026-05-31-at-13-20-40.jpg", caption: "Penampilan Nasyid Rebana dari Adik-Adik Kelas" },
+        { id: "img-10", url: "https://i.ibb.co.com/mK6Hqdx/Whats-App-Image-2026-05-31-at-13-20-39.jpg", caption: "Doa Bersama Mengawali Langkah Perjuangan Baru" },
+      ];
+
+      // Beautiful Quranic Quotes for rotating display
+      const ISLAMIC_QUOTES = [
+        { text: "Sebaik-baik kalian adalah orang yang mempelajari Al-Qur'an dan mengajarkannya.", author: "HR. Bukhari" },
+        { text: "Bacalah Al-Qur'an, karena sesungguhnya ia akan datang pada hari kiamat sebagai pemberi syafaat bagi pembacanya.", author: "HR. Muslim" },
+        { text: "Sesungguhnya Allah mengangkat derajat suatu kaum dengan Kitab (Al-Qur'an) ini.", author: "HR. Muslim" },
+        { text: "Tuntutlah ilmu sejak dari buaian hingga liang lahad.", author: "Hadits Riwayat Ad-Dailami" },
+        { text: "Barangsiapa menempuh suatu jalan untuk mencari ilmu, maka Allah memudahkan baginya jalan menuju surga.", author: "HR. Muslim" },
+      ];
+
+      // State Store
+      let currentUser = null;
+      let activeTab = "home";
+      let isPlaying = false;
+      let onlinePoller = null;
+      let chatPoller = null;
+      let statsPoller = null;
+      let isUploadedFileBase64 = "";
+
+      // Toast Helper
+      function showToast(message, type = "success") {
+        const container = document.getElementById("toast-container");
+        if (!container) return;
+        const toast = document.createElement("div");
+        toast.className = `glass flex items-center gap-3 px-4 py-3.5 rounded-2xl shadow-xl pointer-events-auto border transition-all duration-500 translate-x-10 opacity-0`;
+
+        if (type === "success") {
+          toast.classList.add("border-gold-400/40");
+          toast.innerHTML = `
+                    <div class="w-7 h-7 rounded-full bg-gold-400/20 flex items-center justify-center text-gold-400 text-xs">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <p class="text-xs font-semibold text-emerald-50 leading-snug">${message}</p>
+                `;
+        } else if (type === "error") {
+          toast.classList.add("border-red-500/40");
+          toast.innerHTML = `
+                    <div class="w-7 h-7 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 text-xs">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <p class="text-xs font-semibold text-emerald-50 leading-snug">${message}</p>
+                `;
+        } else {
+          toast.classList.add("border-blue-400/40");
+          toast.innerHTML = `
+                    <div class="w-7 h-7 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xs">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <p class="text-xs font-semibold text-emerald-50 leading-snug">${message}</p>
+                `;
+        }
+
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.classList.remove("translate-x-10", "opacity-0");
+        }, 50);
+
+        setTimeout(() => {
+          toast.classList.add("translate-x-10", "opacity-0");
+          setTimeout(() => toast.remove(), 500);
+        }, 4500);
+      }
+
+      // Particle System generator
+      function initParticles() {
+        const container = document.getElementById("particles");
+        if (!container) return;
+        const particleCount = 20;
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("li");
+          particle.className = "particle";
+          const size = Math.random() * 20 + 5;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          particle.style.left = `${Math.random() * 100}%`;
+          particle.style.animationDelay = `${Math.random() * 15}s`;
+          particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+          container.appendChild(particle);
+        }
+      }
+
+      // API Call Wrapper dengan optimasi CORS & Fallback Otomatis
+      async function fetchAPI(action, payload = {}) {
+        if (!BACKEND_URL || BACKEND_URL.trim() === "" || BACKEND_URL.includes("PASTE_YOUR_WEB_APP_GAS_URL_HERE")) {
+          return getMockData(action, payload);
+        }
+
+        try {
+          const response = await fetch(BACKEND_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+            body: JSON.stringify({ action, ...payload }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP Error Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          if (data.status === "success") {
+            return data;
+          } else {
+            throw new Error(data.message || "API Gagal dieksekusi.");
+          }
+        } catch (err) {
+          console.warn("Menggunakan database lokal (localStorage).", err.message);
+          return getMockData(action, payload);
+        }
+      }
+
+      // Simulasi Penyimpanan Lokal Sementara (Fallback Database) dengan larangan nama duplikat
+      function getMockData(action, payload) {
+        let users = JSON.parse(localStorage.getItem("mock_users") || "[]");
+        let chats = JSON.parse(localStorage.getItem("mock_chats") || "[]");
+        let memories = JSON.parse(localStorage.getItem("mock_memories") || "[]");
+        let dbGallery = JSON.parse(localStorage.getItem("mock_gallery") || "[]");
+
+        if (dbGallery.length === 0) {
+          dbGallery = [...INITIAL_GALLERY];
+          localStorage.setItem("mock_gallery", JSON.stringify(dbGallery));
+        }
+
+        if (action === "registerUser") {
+          const exists = users.find((u) => u.name.toLowerCase() === payload.name.toLowerCase());
+          if (exists) {
+            // Validasi Kepemilikan Perangkat: Jika nama cocok namun ID perangkat (payload.existingId) berbeda, tolak pendaftaran
+            if (payload.existingId && exists.id === payload.existingId) {
+              return { status: "success", data: exists };
+            } else {
+              // Tolak registrasi karena nama sudah dimiliki pengguna/perangkat lain
+              return {
+                status: "error",
+                message: "Nama ini sudah terdaftar oleh santri lain di database. Mohon gunakan nama lengkap unik Anda!",
+              };
+            }
+          }
+          const newUser = { id: "u-" + Date.now(), name: payload.name, registeredAt: new Date().toISOString() };
+          users.push(newUser);
+          localStorage.setItem("mock_users", JSON.stringify(users));
+          return { status: "success", data: newUser };
+        }
+
+        if (action === "getStats") {
+          return {
+            status: "success",
+            data: {
+              usersCount: users.length || 10,
+              chatsCount: chats.length || 4,
+              memoriesCount: memories.length || 3,
+              onlineCount: Math.floor(Math.random() * 3) + 1,
+            },
+          };
+        }
+
+        if (action === "getChats") {
+          return { status: "success", data: chats };
+        }
+
+        if (action === "sendChat") {
+          const newMsg = {
+            id: "c-" + Date.now(),
+            userName: payload.userName,
+            text: payload.text,
+            timestamp: new Date().toISOString(),
+          };
+          chats.push(newMsg);
+          localStorage.setItem("mock_chats", JSON.stringify(chats));
+          return { status: "success", data: newMsg };
+        }
+
+        if (action === "getMemories") {
+          return { status: "success", data: memories };
+        }
+
+        if (action === "sendMemory") {
+          const newMem = {
+            id: "m-" + Date.now(),
+            userName: payload.userName,
+            text: payload.text,
+            timestamp: new Date().toISOString(),
+          };
+          memories.push(newMem);
+          localStorage.setItem("mock_memories", JSON.stringify(memories));
+          return { status: "success", data: newMem };
+        }
+
+        if (action === "getGallery") {
+          return { status: "success", data: dbGallery };
+        }
+
+        if (action === "uploadGallery") {
+          const newImg = {
+            id: "img-" + Date.now(),
+            url: payload.base64Data,
+            caption: payload.caption,
+          };
+          dbGallery.push(newImg);
+          localStorage.setItem("mock_gallery", JSON.stringify(dbGallery));
+          return { status: "success", data: newImg };
+        }
+
+        if (action === "deleteChat") {
+          chats = chats.filter((c) => c.id !== payload.chatId);
+          localStorage.setItem("mock_chats", JSON.stringify(chats));
+          return { status: "success" };
+        }
+
+        if (action === "deleteMemory") {
+          memories = memories.filter((m) => m.id !== payload.memoryId);
+          localStorage.setItem("mock_memories", JSON.stringify(memories));
+          return { status: "success" };
+        }
+
+        if (action === "getAllUsers") {
+          return { status: "success", data: users };
+        }
+
+        return { status: "success", message: "OK" };
+      }
+
+      // Music player controls
+      function initMusic() {
+        const bgAudio = document.getElementById("bg-audio");
+        const btnMusic = document.getElementById("btn-music");
+        const musicIcon = document.getElementById("music-icon");
+        const volumeSlider = document.getElementById("volume-slider");
+        const visualizer = document.getElementById("visualizer");
+        if (!bgAudio || !btnMusic) return;
+
+        const visualizerBars = visualizer ? visualizer.querySelectorAll("div") : [];
+
+        // Set volume defaults
+        bgAudio.volume = volumeSlider ? volumeSlider.value : 0.4;
+
+        function animateVisualizer() {
+          if (isPlaying && visualizerBars.length > 0) {
+            visualizerBars.forEach((bar) => {
+              const h = Math.floor(Math.random() * 16) + 4;
+              bar.style.height = `${h}px`;
+            });
+            requestAnimationFrame(animateVisualizer);
+          } else if (visualizerBars.length > 0) {
+            visualizerBars.forEach((bar) => (bar.style.height = `4px`));
+          }
+        }
+
+        btnMusic.addEventListener("click", () => {
+          if (isPlaying) {
+            bgAudio.pause();
+            musicIcon.className = "fa-solid fa-play text-xs sm:text-sm";
+            isPlaying = false;
+            showToast("Musik Latar Berhenti", "info");
+          } else {
+            bgAudio
+              .play()
+              .then(() => {
+                musicIcon.className = "fa-solid fa-pause text-xs sm:text-sm";
+                isPlaying = true;
+                animateVisualizer();
+                showToast("Menikmati Piano Syahdu & Haru At-Tanwir", "success");
+              })
+              .catch((err) => {
+                console.warn("Audio Play Error:", err);
+                showToast("Izinkan akses audio browser untuk memutar", "info");
+              });
+          }
+        });
+
+        if (volumeSlider) {
+          volumeSlider.addEventListener("input", (e) => {
+            bgAudio.volume = e.target.value;
+          });
+        }
+      }
+
+      // Load quotes
+      function renderQuotes() {
+        const containerQuote = document.getElementById("dynamic-quote");
+        const containerAuthor = document.getElementById("quote-author");
+        if (!containerQuote || !containerAuthor) return;
+        let quoteIdx = 0;
+
+        setInterval(() => {
+          quoteIdx = (quoteIdx + 1) % ISLAMIC_QUOTES.length;
+          containerQuote.style.opacity = "0";
+          setTimeout(() => {
+            containerQuote.innerText = `"${ISLAMIC_QUOTES[quoteIdx].text}"`;
+            containerAuthor.innerText = ISLAMIC_QUOTES[quoteIdx].author;
+            containerQuote.style.opacity = "1";
+          }, 500);
+        }, 8000);
+      }
+
+      // TAB NAVIGATION LOGIC
+      function switchTab(tabId) {
+        activeTab = tabId;
+        const contents = document.querySelectorAll(".tab-content");
+        contents.forEach((content) => content.classList.add("hidden"));
+
+        const targetTab = document.getElementById(`tab-${tabId}`);
+        if (targetTab) targetTab.classList.remove("hidden");
+
+        // Reset active styles inside desktop nav
+        const navBtns = document.querySelectorAll(".nav-btn");
+        navBtns.forEach((btn) => {
+          btn.classList.remove("bg-gold-400/20", "text-gold-400");
+          btn.classList.add("text-emerald-200");
+        });
+
+        const activeBtn = document.getElementById(`nav-${tabId}`);
+        if (activeBtn) {
+          activeBtn.classList.remove("text-emerald-200");
+          activeBtn.classList.add("bg-gold-400/20", "text-gold-400");
+        }
+
+        // Close Mobile Nav Menu
+        const mobileMenu = document.getElementById("mobile-menu");
+        if (mobileMenu) mobileMenu.classList.add("hidden");
+
+        // Lazy Load triggers
+        if (tabId === "gallery") {
+          loadGalleryData();
+        } else if (tabId === "chat") {
+          loadChatData();
+          setTimeout(() => {
+            const chatBox = document.getElementById("chat-messages");
+            if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+          }, 400);
+        } else if (tabId === "memories") {
+          loadMemoriesData();
+        } else if (tabId === "admin") {
+          loadAdminStatistics();
+        }
+      }
+
+      // LOGIN ACTIONS WITH ID OWNER CHECKING
+      document.getElementById("login-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const loginBtn = document.getElementById("btn-login-submit");
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-xs sm:text-sm"></i><span>MEMVALIDASI...</span>`;
+
+        const nameInput = document.getElementById("login-name").value.trim();
+        if (!nameInput) {
+          showToast("Nama tidak boleh kosong!", "error");
+          loginBtn.disabled = false;
+          loginBtn.innerText = "BUKA MEMORI";
+          return;
+        }
+
+        // Ambil ID lokal yang tersimpan untuk mencocokkan kepemilikan nama
+        const cachedUser = JSON.parse(localStorage.getItem("tpq_tanwir_user") || "null");
+        const response = await fetchAPI("registerUser", {
+          name: nameInput,
+          existingId: cachedUser ? cachedUser.id : null,
+        });
+
+        if (response.status === "success") {
+          currentUser = response.data;
+          localStorage.setItem("tpq_tanwir_user", JSON.stringify(currentUser));
+          showToast(`Selamat datang kembali, ${currentUser.name}!`, "success");
+          enterApp();
+        } else {
+          showToast(response.message || "Nama sudah digunakan oleh orang lain!", "error");
+        }
+
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = `<span>BUKA MEMORI</span><i class="fa-solid fa-feather-pointed"></i>`;
+      });
+
+      // ENTER APPLICATION CONTROLLER
+      function enterApp() {
+        const loginView = document.getElementById("view-login");
+        const mainView = document.getElementById("view-main");
+        const userNameDisplay = document.getElementById("user-display-name");
+
+        if (loginView) loginView.classList.add("hidden");
+        if (mainView) mainView.classList.remove("hidden");
+        if (userNameDisplay) userNameDisplay.innerText = currentUser.name;
+
+        // Pop confetti decoration on login successful!
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+
+        // Start polling loops
+        startPollers();
+        renderHeroSlideshow();
+        switchTab("home");
+      }
+
+      // Start Interval Pollers
+      function startPollers() {
+        // Stats & Online User Counter
+        updateGeneralStats();
+        clearInterval(statsPoller);
+        statsPoller = setInterval(updateGeneralStats, 10000);
+
+        // Active/Online Heartbeat for Database
+        heartbeatOnline();
+        clearInterval(onlinePoller);
+        onlinePoller = setInterval(heartbeatOnline, 30000);
+
+        // Chat real-time auto polling
+        clearInterval(chatPoller);
+        chatPoller = setInterval(() => {
+          if (activeTab === "chat") {
+            loadChatData();
+          }
+        }, 6000);
+      }
+
+      async function updateGeneralStats() {
+        const response = await fetchAPI("getStats");
+        if (response.status === "success") {
+          const statStudents = document.getElementById("stat-students");
+          const statMemories = document.getElementById("stat-memories");
+          const statMessages = document.getElementById("stat-messages");
+          const statOnline = document.getElementById("stat-online");
+          const chatOnlineCount = document.getElementById("chat-online-count");
+
+          if (statStudents) statStudents.innerText = response.data.usersCount || "10";
+          if (statMemories) statMemories.innerText = response.data.memoriesCount || "0";
+          if (statMessages) statMessages.innerText = response.data.chatsCount || "0";
+          if (statOnline) statOnline.innerText = response.data.onlineCount || "1";
+          if (chatOnlineCount) chatOnlineCount.innerText = response.data.onlineCount || "1";
+        }
+      }
+
+      async function heartbeatOnline() {
+        if (currentUser) {
+          await fetchAPI("heartbeat", { userId: currentUser.id, name: currentUser.name });
+        }
+      }
+
+      // RENDER HERO SLIDESHOW
+      function renderHeroSlideshow() {
+        const container = document.getElementById("hero-slider");
+        const dotsContainer = document.getElementById("hero-slider-dots");
+        if (!container || !dotsContainer) return;
+
+        container.innerHTML = "";
+        dotsContainer.innerHTML = "";
+
+        // Use first 5 images for hero slideshow preview
+        const slideshowImages = INITIAL_GALLERY.slice(0, 5);
+
+        slideshowImages.forEach((item, index) => {
+          // Slide image
+          const slide = document.createElement("div");
+          slide.className = `absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${index === 0 ? "opacity-100" : "opacity-0"}`;
+          slide.style.backgroundImage = `url('${item.url}')`;
+          slide.setAttribute("data-index", index);
+          container.appendChild(slide);
+
+          // Dot selector
+          const dot = document.createElement("span");
+          dot.className = `w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full cursor-pointer transition-all ${index === 0 ? "bg-gold-400 w-3 sm:w-4" : "bg-white/40"}`;
+          dot.setAttribute("data-target", index);
+          dotsContainer.appendChild(dot);
+        });
+
+        let activeSlide = 0;
+        const slideInterval = setInterval(() => {
+          const slides = container.querySelectorAll("[data-index]");
+          const dots = dotsContainer.querySelectorAll("[data-target]");
+          if (!slides.length) {
+            clearInterval(slideInterval);
+            return;
+          }
+
+          slides[activeSlide].classList.add("opacity-0");
+          slides[activeSlide].classList.remove("opacity-100");
+          dots[activeSlide].classList.remove("bg-gold-400", "w-3", "w-4");
+          dots[activeSlide].classList.add("bg-white/40");
+
+          activeSlide = (activeSlide + 1) % slides.length;
+
+          slides[activeSlide].classList.remove("opacity-0");
+          slides[activeSlide].classList.add("opacity-100");
+          dots[activeSlide].classList.add("bg-gold-400", "w-3", "w-4");
+          dots[activeSlide].classList.remove("bg-white/40");
+        }, 4000);
+      }
+
+      // CHAT DATA LOAD & ACTIONS
+      async function loadChatData() {
+        const chatContainer = document.getElementById("chat-messages");
+        if (!chatContainer) return;
+        const response = await fetchAPI("getChats");
+        if (response.status === "success") {
+          // Simpan posisi scroll sebelum melakukan pembaruan obrolan
+          const shouldScroll = chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 100;
+
+          chatContainer.innerHTML = "";
+          const chats = response.data;
+
+          if (chats.length === 0) {
+            chatContainer.innerHTML = `
+                        <div class="h-full flex flex-col items-center justify-center text-center p-8 space-y-3 opacity-60">
+                            <i class="fa-regular fa-comments text-4xl text-gold-400/40"></i>
+                            <p class="text-xs text-emerald-100">Belum ada obrolan hangat. Jadilah yang pertama menyapa teman-teman!</p>
+                        </div>
+                    `;
+            return;
+          }
+
+          chats.forEach((chat) => {
+            const isMe = chat.userName === currentUser.name;
+            const card = document.createElement("div");
+            card.className = `flex flex-col max-w-[85%] sm:max-w-[80%] ${isMe ? "self-end items-end ml-auto" : "items-start mr-auto"}`;
+
+            const timeString = chat.timestamp ? new Date(chat.timestamp).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) : "";
+
+            card.innerHTML = `
+                        <span class="text-[10px] text-emerald-300 font-bold mb-1 px-1">${isMe ? "Anda" : chat.userName}</span>
+                        <div class="glass p-3 sm:p-3.5 rounded-2xl text-xs sm:text-sm text-white ${isMe ? "bg-gold-500/10 border-gold-400/35 rounded-tr-none" : "rounded-tl-none"} shadow-md">
+                            <p class="leading-relaxed break-words">${sanitizeHTML(chat.text)}</p>
+                        </div>
+                        <span class="text-[8px] text-emerald-300/60 mt-1 px-1 tracking-wider">${timeString}</span>
+                    `;
+            chatContainer.appendChild(card);
+          });
+
+          // Auto Scroll Chat jika user berada di paling bawah
+          if (shouldScroll) {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+          }
+        }
+      }
+
+      // Submit Chat message
+      document.getElementById("chat-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const chatInput = document.getElementById("chat-input");
+        if (!chatInput) return;
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        // Anti Spam & Security Limit
+        if (text.length > 200) {
+          showToast("Pesan terlalu panjang (maksimal 200 karakter)!", "error");
+          return;
+        }
+
+        chatInput.value = "";
+        const response = await fetchAPI("sendChat", {
+          userName: currentUser.name,
+          text: text,
+        });
+
+        if (response.status === "success") {
+          loadChatData();
+        } else {
+          showToast("Gagal mengirim pesan", "error");
+        }
+      });
+
+      // MEMORIES (PESAN & DOA) LOAD & ACTIONS
+      async function loadMemoriesData() {
+        const container = document.getElementById("memory-container");
+        if (!container) return;
+        container.innerHTML = `
+                <div class="col-span-full py-12 flex justify-center w-full">
+                    <i class="fa-solid fa-spinner animate-spin text-gold-400 text-3xl"></i>
+                </div>
+            `;
+
+        const response = await fetchAPI("getMemories");
+        if (response.status === "success") {
+          container.innerHTML = "";
+          const memories = response.data;
+
+          if (memories.length === 0) {
+            container.innerHTML = `
+                        <div class="col-span-full text-center py-12 text-emerald-300/60 flex flex-col items-center gap-3">
+                            <i class="fa-regular fa-heart text-4xl"></i>
+                            <p class="text-xs">Belum ada untaian doa. Mari isi pohon harapan ini!</p>
+                        </div>
+                    `;
+            return;
+          }
+
+          memories.forEach((mem) => {
+            const card = document.createElement("div");
+            card.className = `glass-premium p-5 sm:p-6 rounded-2xl break-inside-avoid shadow-lg flex flex-col space-y-4 hover:border-gold-400/40 transition-all duration-300 transform hover:translate-y-[-4px] border border-gold-400/10 mb-5 sm:mb-6`;
+
+            card.innerHTML = `
+                        <div class="flex items-center gap-2 border-b border-white/5 pb-3">
+                            <div class="w-8 h-8 rounded-full bg-gold-400/15 flex items-center justify-center text-gold-400 text-xs shrink-0">
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="text-xs font-bold text-white tracking-wide truncate">${mem.userName}</h4>
+                                <span class="text-[8px] text-emerald-300/60">TPQ AT TANWIR</span>
+                            </div>
+                        </div>
+                        <p class="text-xs sm:text-sm text-emerald-50 leading-relaxed italic">"${sanitizeHTML(mem.text)}"</p>
+                        <div class="flex justify-end pt-2 text-[9px] text-gold-400/60 font-semibold tracking-wider">
+                            <span>Mutiara Doa Syukur</span>
+                        </div>
+                    `;
+            container.appendChild(card);
+          });
+        }
+      }
+
+      // Submit Memory Message
+      const memoryInput = document.getElementById("memory-text");
+      const charCounter = document.getElementById("char-counter");
+
+      if (memoryInput) {
+        memoryInput.addEventListener("input", () => {
+          const len = memoryInput.value.length;
+          if (charCounter) charCounter.innerText = `${len} / 250 Karakter`;
+          if (len > 250) {
+            memoryInput.value = memoryInput.value.substring(0, 250);
+          }
+        });
+      }
+
+      document.getElementById("memory-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!memoryInput) return;
+        const text = memoryInput.value.trim();
+        if (!text) return;
+
+        if (text.length > 250) {
+          showToast("Pesan melebihi batas maksimal karakter", "error");
+          return;
+        }
+
+        const response = await fetchAPI("sendMemory", {
+          userName: currentUser.name,
+          text: text,
+        });
+
+        if (response.status === "success") {
+          showToast("Untaian doa telah berhasil digantung di pohon harapan!", "success");
+          memoryInput.value = "";
+          if (charCounter) charCounter.innerText = "0 / 250 Karakter";
+          loadMemoriesData();
+          confetti({
+            particleCount: 40,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+          });
+          confetti({
+            particleCount: 40,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+          });
+        } else {
+          showToast("Gagal mengirim ucapan doa", "error");
+        }
+      });
+
+      // GALLERY LOAD & ACTION WITH RESPONSIVE IMAGE CARD CREATION (PURE IMAGES, NO META TEXT)
+      async function loadGalleryData() {
+        const container = document.getElementById("masonry-gallery");
+        if (!container) return;
+        container.innerHTML = `
+                <div class="col-span-full py-12 flex justify-center w-full">
+                    <i class="fa-solid fa-spinner animate-spin text-gold-400 text-3xl"></i>
+                </div>
+            `;
+
+        const response = await fetchAPI("getGallery");
+        if (response.status === "success") {
+          container.innerHTML = "";
+          const gallery = response.data;
+
+          gallery.forEach((img) => {
+            const card = document.createElement("div");
+            // Ditambahkan class padding-0, dan overflow-hidden agar murni menampilkan foto secara penuh
+            card.className = `gallery-item-card glass rounded-2xl overflow-hidden shadow-lg relative group border border-gold-400/10 cursor-pointer hover:border-gold-400/40 transform active:scale-95 duration-300 w-full`;
+            card.onclick = () => openLightbox(img.url, img.caption);
+
+            card.innerHTML = `
+                        <div class="relative overflow-hidden w-full bg-emerald-950/40">
+                            <!-- Shimmer placeholder during load -->
+                            <div class="shimmer absolute inset-0 w-full h-48 rounded-2xl transition-opacity duration-300" id="shimmer-${img.id}"></div>
+                            <img src="${img.url}" alt="${img.caption}" 
+                                 class="w-full h-auto max-h-[480px] min-h-[140px] object-cover transition-transform duration-500 group-hover:scale-105 opacity-0"
+                                 onload="document.getElementById('shimmer-${img.id}').classList.add('opacity-0'); this.classList.remove('opacity-0');"
+                                 onerror="this.src='https://placehold.co/600x400/022c22/fbbf24?text=At+Tanwir'; document.getElementById('shimmer-${img.id}').classList.add('opacity-0'); this.classList.remove('opacity-0');"
+                                 loading="lazy">
+                            <!-- Overlay estetik saat hover pada desktop / klik pada mobile -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/80 via-emerald-950/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <span class="text-white text-xs font-semibold tracking-wide bg-emerald-950/80 px-3 py-2 rounded-xl border border-gold-400/30 flex items-center gap-1.5 shadow-md">
+                                    <i class="fa-solid fa-magnifying-glass-plus text-gold-400"></i> Buka Foto
+                                </span>
+                            </div>
+                        </div>
+                    `;
+            container.appendChild(card);
+          });
+        }
+      }
+
+      // File upload encoding handler
+      const fileUploadInput = document.getElementById("upload-file");
+      if (fileUploadInput) {
+        fileUploadInput.addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            document.getElementById("file-chosen").innerText = file.name;
+            const reader = new FileReader();
+            reader.onloadend = function () {
+              isUploadedFileBase64 = reader.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+
+      // Submit uploaded photo
+      document.getElementById("upload-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const captionInput = document.getElementById("upload-caption");
+        const caption = captionInput ? captionInput.value.trim() : "";
+        if (!isUploadedFileBase64) {
+          showToast("Pilih berkas foto terlebih dahulu", "error");
+          return;
+        }
+
+        const response = await fetchAPI("uploadGallery", {
+          base64Data: isUploadedFileBase64,
+          caption: caption,
+        });
+
+        if (response.status === "success") {
+          showToast("Foto kenangan Anda berhasil dibagikan di Galeri!", "success");
+          if (captionInput) captionInput.value = "";
+          document.getElementById("file-chosen").innerText = "Pilih Gambar";
+          isUploadedFileBase64 = "";
+          loadGalleryData();
+        } else {
+          showToast("Gagal mengunggah foto ke server", "error");
+        }
+      });
+
+      // LIGHTBOX CONTROLS WITH RESPONSIVE TOUCH DISMISS & SWIPE GESTURES
+      let touchStartY = 0;
+      let touchEndY = 0;
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      function openLightbox(url, caption) {
+        const lb = document.getElementById("lightbox");
+        const lbImg = document.getElementById("lightbox-img");
+
+        if (lbImg && lb) {
+          lbImg.src = url;
+          lbImg.style.transform = "scale(1)";
+          lb.classList.remove("hidden");
+          document.body.classList.add("overflow-hidden"); // Prevent background scrolling
+        }
+      }
+
+      function closeLightbox() {
+        const lb = document.getElementById("lightbox");
+        if (lb) {
+          lb.classList.add("hidden");
+          document.body.classList.remove("overflow-hidden");
+        }
+      }
+
+      document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
+
+      // Attach Swipe Events to Lightbox Container for intuitive Mobile dismissal
+      const lightboxContainer = document.getElementById("lightbox");
+      if (lightboxContainer) {
+        lightboxContainer.addEventListener(
+          "touchstart",
+          (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+            touchStartX = e.changedTouches[0].screenX;
+          },
+          { passive: true },
+        );
+
+        lightboxContainer.addEventListener(
+          "touchend",
+          (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            touchEndX = e.changedTouches[0].screenX;
+            handleLightboxGesture();
+          },
+          { passive: true },
+        );
+      }
+
+      function handleLightboxGesture() {
+        const swipeDistanceY = Math.abs(touchEndY - touchStartY);
+        const swipeDistanceX = Math.abs(touchEndX - touchStartX);
+
+        // Swiped more than 120px vertically or horizontally closes lightbox gracefully
+        if (swipeDistanceY > 120 || swipeDistanceX > 120) {
+          closeLightbox();
+          showToast("Pratinjau foto ditutup", "info");
+        }
+      }
+
+      // MOBILE NAVIGATION BAR TOGGLE
+      document.getElementById("mobile-menu-toggle").addEventListener("click", () => {
+        const mobMenu = document.getElementById("mobile-menu");
+        if (mobMenu) mobMenu.classList.toggle("hidden");
+      });
+
+      // USER LOGOUT
+      document.getElementById("btn-logout").addEventListener("click", () => {
+        clearInterval(onlinePoller);
+        clearInterval(chatPoller);
+        clearInterval(statsPoller);
+        currentUser = null;
+        localStorage.removeItem("tpq_tanwir_user");
+
+        const mainView = document.getElementById("view-main");
+        const loginView = document.getElementById("view-login");
+        if (mainView) mainView.classList.add("hidden");
+        if (loginView) loginView.classList.remove("hidden");
+        showToast("Anda telah keluar dari Gerbang Memori TPQ AT TANWIR", "info");
+      });
+
+      // ADMIN PANEL AUTENTIKASI
+      function unlockAdmin() {
+        const secretInput = document.getElementById("admin-secret");
+        const secret = secretInput ? secretInput.value : "";
+        // Sandi default admin TPQ Tanwir
+        if (secret === "Tantowir123") {
+          const authBlock = document.getElementById("admin-auth");
+          const panelBlock = document.getElementById("admin-panel");
+          if (authBlock) authBlock.classList.add("hidden");
+          if (panelBlock) panelBlock.classList.remove("hidden");
+          showToast("Akses Panel Admin Diterima", "success");
+          loadAdminStatistics();
+        } else {
+          showToast("Kode Rahasia Salah!", "error");
+        }
+      }
+
+      async function loadAdminStatistics() {
+        const responseStats = await fetchAPI("getStats");
+        if (responseStats.status === "success") {
+          const totalUsers = document.getElementById("admin-total-users");
+          const totalChats = document.getElementById("admin-total-chats");
+          const totalMemories = document.getElementById("admin-total-memories");
+
+          if (totalUsers) totalUsers.innerText = responseStats.data.usersCount || "0";
+          if (totalChats) totalChats.innerText = responseStats.data.chatsCount || "0";
+          if (totalMemories) totalMemories.innerText = responseStats.data.memoriesCount || "0";
+        }
+
+        // Load Chat & Memories List with Delete Action inside Admin Panel
+        const containerChats = document.getElementById("admin-chats-list");
+        if (containerChats) {
+          const responseChats = await fetchAPI("getChats");
+          if (responseChats.status === "success") {
+            containerChats.innerHTML = "";
+            responseChats.data.forEach((chat) => {
+              const el = document.createElement("div");
+              el.className = "glass p-3 rounded-xl flex items-center justify-between gap-3 text-xs";
+              el.innerHTML = `
+                            <div class="flex-1">
+                                <span class="font-bold text-gold-400">${chat.userName}:</span>
+                                <span class="text-white">${sanitizeHTML(chat.text)}</span>
+                            </div>
+                            <button onclick="adminDeleteChat('${chat.id}')" class="p-2 bg-red-500/15 border border-red-500/20 text-red-400 hover:bg-red-500/30 rounded-lg shrink-0">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        `;
+              containerChats.appendChild(el);
+            });
+          }
+        }
+
+        const containerMemories = document.getElementById("admin-memories-list");
+        if (containerMemories) {
+          const responseMemories = await fetchAPI("getMemories");
+          if (responseMemories.status === "success") {
+            containerMemories.innerHTML = "";
+            responseMemories.data.forEach((mem) => {
+              const el = document.createElement("div");
+              el.className = "glass p-3 rounded-xl flex items-center justify-between gap-3 text-xs";
+              el.innerHTML = `
+                            <div class="flex-1">
+                                <span class="font-bold text-gold-400">${mem.userName}:</span>
+                                <span class="text-white italic">"${sanitizeHTML(mem.text)}"</span>
+                            </div>
+                            <button onclick="adminDeleteMemory('${mem.id}')" class="p-2 bg-red-500/15 border border-red-500/20 text-red-400 hover:bg-red-500/30 rounded-lg shrink-0">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        `;
+              containerMemories.appendChild(el);
+            });
+          }
+        }
+      }
+
+      // Sanitasi input sederhana dari XSS
+      function sanitizeHTML(str) {
+        return str.replace(/[&<>'"]/g, (tag) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[tag] || tag);
+      }
+
+      // Auto initialization on load
+      window.addEventListener("load", () => {
+        initParticles();
+        initMusic();
+        renderQuotes();
+
+        // Auto-check Local Storage login session
+        const cached = localStorage.getItem("tpq_tanwir_user");
+
+        setTimeout(() => {
+          const screen = document.getElementById("loading-screen");
+          if (screen) screen.classList.add("opacity-0");
+
+          setTimeout(() => {
+            if (screen) screen.classList.add("hidden");
+            const appContainer = document.getElementById("app");
+            if (appContainer) appContainer.classList.remove("hidden");
+
+            if (cached) {
+              currentUser = JSON.parse(cached);
+              enterApp();
+            } else {
+              switchTab("home");
+            }
+          }, 1000);
+        }, 3000); // 3 seconds of cool Islamic immersive entrance visual
+      });
+    </script>
+  </body>
+</html>
