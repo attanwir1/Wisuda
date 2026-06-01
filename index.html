@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Viewport adaptif yang sangat dioptimalkan untuk perangkat mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
+    <title>Galeri Wisuda Kelas 6 - TPQ AT TANWIR</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co.com/pjv1JqNW/LOGO-PONPES.png" />
+
+    <!-- Google Fonts: Inter & Amiri (Islamic style headers) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              arabic: ["Amiri", "serif"],
+            },
+            colors: {
+              emerald: {
+                900: "#022c22",
+                950: "#011c15",
+              },
+              gold: {
+                300: "#fde047",
+                400: "#fbbf24",
+                500: "#f59e0b",
+                600: "#d97706",
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* Custom scrollbar styling untuk desktop */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #011c15;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #d97706;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #fbbf24;
+      }
+
+      /* Menyembunyikan scrollbar pada kontainer swipe horizontal mobile */
+      .scrollbar-none::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-none {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Islamic geometric subtle background pattern */
+      .bg-pattern {
+        background-color: #011c15;
+        background-image: radial-gradient(rgba(217, 119, 6, 0.03) 1.5px, transparent 0);
+        background-size: 32px 32px;
+      }
+
+      /* Animation effects */
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .fade-in-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Rotating Mandala Animation */
+      @keyframes rotateMandala {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .rotate-slow {
+        animation: rotateMandala 120s linear infinite;
+      }
+
+      /* Shimmer text effect */
+      @keyframes shine {
+        to {
+          background-position: 200% center;
+        }
+      }
+      .shine-text {
+        background: linear-gradient(to right, #ffffff 20%, #fde047 40%, #fbbf24 60%, #ffffff 80%);
+        background-size: 200% auto;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: shine 4s linear infinite;
+      }
+
+      /* Golden shimmering skeleton loader */
+      @keyframes shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+      .shimmer-bg {
+        background: linear-gradient(90deg, #01241b 25%, #02382a 50%, #01241b 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+
+      /* Glass sweep / Shimmer hover effect on gallery cards */
+      .glass-sweep::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+        transform: skewX(-25deg);
+        transition: 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 15;
+        pointer-events: none;
+      }
+      .glass-sweep:hover::after {
+        left: 150%;
+      }
+
+      /* Cinematic Ken Burns Effect for active slide image */
+      @keyframes kenBurns {
+        0% {
+          transform: scale(1) translate(0, 0);
+        }
+        50% {
+          transform: scale(1.06) translate(-0.5%, -0.2%);
+        }
+        100% {
+          transform: scale(1) translate(0, 0);
+        }
+      }
+      .ken-burns-img {
+        animation: kenBurns 20s infinite ease-in-out;
+      }
+    </style>
+  </head>
+
+  <body class="bg-pattern text-gray-100 font-sans min-h-screen selection:bg-gold-600 selection:text-white overflow-x-hidden">
+    <!-- Sleek Scroll Progress Bar -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 z-50 transition-all duration-100" style="width: 0%"></div>
+
+    <!-- Interactive Canvas Background Animation -->
+    <canvas id="bg-animation" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- Background elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      <!-- Huge rotating background mandala -->
+      <div class="absolute -top-32 -right-32 w-72 h-72 sm:w-[500px] sm:h-[500px] opacity-10 pointer-events-none rotate-slow">
+        <svg class="w-full h-full text-gold-400" viewBox="0 0 100 100" fill="currentColor">
+          <path
+            d="M50 0 L54 15 L69 11 L60 25 L75 25 L63 37 L75 50 L63 63 L75 75 L60 75 L69 89 L54 85 L50 100 L46 85 L31 89 L40 75 L25 75 L37 63 L25 50 L37 37 L25 25 L40 25 L31 11 L46 15 Z"
+            fill-rule="evenodd"
+            opacity="0.3"
+          />
+          <circle cx="50" cy="50" r="30" stroke="currentColor" stroke-width="0.5" fill="none" />
+          <circle cx="50" cy="50" r="15" stroke="currentColor" stroke-width="0.5" fill="none" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-40 bg-emerald-950/90 backdrop-blur-md border-b border-gold-500/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-14 sm:h-20">
+          <div class="flex items-center gap-2.5 sm:gap-3 mx-auto md:mx-0">
+            <img src="https://i.ibb.co.com/pjv1JqNW/LOGO-PONPES.png" alt="Logo TPQ AT TANWIR" class="h-8 w-8 sm:h-12 sm:w-12 object-contain filter drop-shadow" />
+            <div>
+              <span class="font-serif font-bold text-sm sm:text-lg text-gold-400 block tracking-wider leading-tight">TPQ AT TANWIR</span>
+              <span class="text-[9px] sm:text-xs text-emerald-300 block">Wisuda Santri Kelas VI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="py-8 sm:py-16 text-center max-w-4xl mx-auto px-4 relative z-10 fade-in-up" id="header-section">
+      <div class="inline-block p-1 rounded-full bg-gradient-to-tr from-gold-600 via-gold-400 to-gold-600 mb-3 shadow-lg shadow-gold-500/15 hover:scale-105 transition-transform duration-300">
+        <div class="bg-emerald-950 p-1.5 sm:p-2.5 rounded-full">
+          <img src="https://i.ibb.co.com/pjv1JqNW/LOGO-PONPES.png" alt="Logo TPQ" class="h-10 w-10 sm:h-20 sm:w-20 object-contain" />
+        </div>
+      </div>
+
+      <h1 class="font-serif text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-wide mb-2 px-2">
+        <span class="shine-text">GALERI DOKUMENTASI WISUDA</span>
+      </h1>
+      <p class="text-xs sm:text-base md:text-xl font-semibold text-emerald-300 tracking-widest uppercase font-serif mb-4 sm:mb-6">Santri Kelas VI • TPQ AT TANWIR</p>
+
+      <!-- Elegant Eight-pointed Star Islamic Ornament separator -->
+      <div class="flex items-center justify-center gap-3 max-w-[200px] sm:max-w-xs mx-auto text-gold-500">
+        <div class="h-[1px] bg-gradient-to-r from-transparent to-gold-500 flex-grow"></div>
+        <i class="fa-solid fa-star-and-crescent text-xs"></i>
+        <div class="h-[1px] bg-gradient-to-l from-transparent to-gold-500 flex-grow"></div>
+      </div>
+    </header>
+
+    <!-- Automatic Slideshow Carousel -->
+    <section class="max-w-5xl mx-auto px-4 mb-10 sm:mb-20 fade-in-up relative z-10">
+      <div class="bg-gradient-to-br from-emerald-950/70 to-emerald-900/30 p-1.5 sm:p-4 rounded-2xl sm:rounded-3xl border border-gold-500/10 shadow-2xl relative overflow-hidden backdrop-blur-sm">
+        <!-- Target visual: badge text yang tidak meluber di HP layar kecil -->
+        <div
+          class="absolute top-3 left-3 bg-emerald-950/90 backdrop-blur border border-gold-500/30 text-gold-400 px-2 sm:px-3 py-1 rounded-full text-[9px] sm:text-xs font-semibold tracking-wider z-20 flex items-center gap-1 shadow-md"
+        >
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+          SOROTAN MOMEN INDAH
+        </div>
+
+        <!-- Slideshow Container -->
+        <div class="relative h-[200px] sm:h-[420px] md:h-[520px] rounded-xl sm:rounded-2xl overflow-hidden w-full bg-black/40">
+          <div id="slideshow-container" class="w-full h-full relative">
+            <!-- Slides will be dynamically rendered here for efficiency and smoothness -->
+          </div>
+
+          <!-- Bottom controls indicator bar -->
+          <div
+            class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20 bg-black/50 px-2.5 py-1.5 rounded-full backdrop-blur-sm border border-white/5"
+            id="slideshow-indicators"
+          >
+            <!-- Indicators injected dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quranic Verse and Hadith Section -->
+    <section class="max-w-5xl mx-auto px-4 mb-10 sm:mb-20 fade-in-up" id="quran-hadith-section">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+        <!-- Ayat Al-Qur'an Card -->
+        <div
+          class="bg-gradient-to-br from-emerald-950/80 to-emerald-900/30 border border-gold-500/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl relative overflow-hidden shadow-xl hover:border-gold-500/30 hover:shadow-gold-500/5 transition-all duration-300 group"
+        >
+          <div
+            class="absolute -right-6 -bottom-6 sm:-right-8 sm:-bottom-8 opacity-[0.03] text-gold-400 font-serif text-[120px] sm:text-[180px] select-none pointer-events-none group-hover:scale-105 transition-transform duration-700"
+          >
+            <i class="fa-solid fa-book-quran"></i>
+          </div>
+          <div class="flex items-center gap-2 text-gold-400 text-[10px] sm:text-sm font-semibold tracking-wider mb-3 sm:mb-5">
+            <span class="p-1.5 sm:p-2 rounded-lg bg-gold-500/15"><i class="fa-solid fa-book-open"></i></span>
+            SURAH AL-MUJADILAH: 11
+          </div>
+          <p class="font-arabic text-right text-xl sm:text-3xl text-gold-300 leading-loose mb-3 sm:mb-5 font-bold" dir="rtl">
+            يَرْفَعِ اللّٰهُ الَّذِيْنَ اٰمَنُوْا مِنْكُمْۙ وَالَّذِيْنَ اُوْتُوا الْعِلْمَ دَرَجٰتٍۗ
+          </p>
+          <div class="h-[1px] bg-gradient-to-r from-gold-500/20 to-transparent mb-3"></div>
+          <p class="text-[11px] sm:text-sm italic text-gray-300 leading-relaxed font-light">
+            "...Allah akan mengangkat (derajat) orang-orang yang beriman di antaramu dan orang-orang yang diberi ilmu beberapa derajat..."
+          </p>
+        </div>
+
+        <!-- Hadits Card -->
+        <div
+          class="bg-gradient-to-br from-emerald-950/80 to-emerald-900/30 border border-gold-500/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl relative overflow-hidden shadow-xl hover:border-gold-500/30 hover:shadow-gold-500/5 transition-all duration-300 group"
+        >
+          <div
+            class="absolute -right-6 -bottom-6 sm:-right-8 sm:-bottom-8 opacity-[0.03] text-gold-400 font-serif text-[120px] sm:text-[180px] select-none pointer-events-none group-hover:scale-105 transition-transform duration-700"
+          >
+            <i class="fa-solid fa-hands-praying"></i>
+          </div>
+          <div class="flex items-center gap-2 text-gold-400 text-[10px] sm:text-sm font-semibold tracking-wider mb-3 sm:mb-5">
+            <span class="p-1.5 sm:p-2 rounded-lg bg-gold-500/15"><i class="fa-solid fa-star-and-crescent"></i></span>
+            HADITS RIWAYAT BUKHARI
+          </div>
+          <p class="font-arabic text-right text-xl sm:text-3xl text-gold-300 leading-loose mb-3 sm:mb-5 font-bold" dir="rtl">خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْاٰنَ وَعَلَّمَهٗ</p>
+          <div class="h-[1px] bg-gradient-to-r from-gold-500/20 to-transparent mb-3"></div>
+          <p class="text-[11px] sm:text-sm italic text-gray-300 leading-relaxed font-light">"Sebaik-baik kalian adalah orang yang mempelajari Al-Qur'an dan mengajarkannya kepada orang lain."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Gallery Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 relative z-10 fade-in-up" id="gallery-section">
+      <!-- Elegant Category Tabs & Search Panel -->
+      <div class="mb-6 sm:mb-10 bg-emerald-950/50 p-4 sm:p-5 rounded-2xl border border-gold-500/10 backdrop-blur-md shadow-lg">
+        <!-- Title & Subtitle for Gallery Controls -->
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3.5 mb-5">
+          <div>
+            <h2 class="text-sm sm:text-lg font-serif font-semibold text-gold-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-images"></i>
+              Koleksi Foto Kenangan
+            </h2>
+            <p class="text-[9px] sm:text-xs text-gray-400 mt-0.5">Sentuh foto untuk memperbesar, menyukai, mengunduh atau menyalin tautan.</p>
+          </div>
+
+          <!-- Instant Search Bar -->
+          <div class="relative w-full md:w-80">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gold-500">
+              <i class="fas fa-search text-xs"></i>
+            </span>
+            <input
+              type="text"
+              id="gallery-search"
+              onkeyup="filterGallery()"
+              placeholder="Cari nomor foto (contoh: 25)..."
+              class="w-full bg-emerald-950/80 border border-gold-500/20 text-white rounded-xl pl-10 pr-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent placeholder-emerald-700/50 transition-all"
+            />
+          </div>
+        </div>
+
+        <!-- Custom Category Tabs (Swipeable di HP, Wrap di desktop) -->
+        <div
+          class="flex overflow-x-auto pb-2 -mx-4 px-4 scrollbar-none flex-nowrap md:flex-wrap md:overflow-x-visible md:pb-0 md:mx-0 md:px-0 gap-2 border-t border-gold-500/5 pt-4"
+          id="category-tabs"
+        >
+          <button
+            onclick="setActiveTab('all')"
+            id="tab-all"
+            class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 bg-gold-500 text-emerald-950 shadow-md border border-gold-500/20 whitespace-nowrap"
+          >
+            Semua Foto
+          </button>
+          <button
+            onclick="setActiveTab('range1')"
+            id="tab-range1"
+            class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 text-gray-400 hover:text-white bg-emerald-900/10 hover:bg-emerald-900/30 border border-transparent hover:border-gold-500/10 whitespace-nowrap"
+          >
+            Foto 1 - 10
+          </button>
+          <button
+            onclick="setActiveTab('range2')"
+            id="tab-range2"
+            class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 text-gray-400 hover:text-white bg-emerald-900/10 hover:bg-emerald-900/30 border border-transparent hover:border-gold-500/10 whitespace-nowrap"
+          >
+            Foto 11 - 20
+          </button>
+          <button
+            onclick="setActiveTab('range3')"
+            id="tab-range3"
+            class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 text-gray-400 hover:text-white bg-emerald-900/10 hover:bg-emerald-900/30 border border-transparent hover:border-gold-500/10 whitespace-nowrap"
+          >
+            Foto 21 - 30
+          </button>
+          <button
+            onclick="setActiveTab('range4')"
+            id="tab-range4"
+            class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 text-gray-400 hover:text-white bg-emerald-900/10 hover:bg-emerald-900/30 border border-transparent hover:border-gold-500/10 whitespace-nowrap"
+          >
+            Foto 31 - 40
+          </button>
+          <button
+            onclick="setActiveTab('range5')"
+            id="tab-range5"
+            class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 text-gray-400 hover:text-white bg-emerald-900/10 hover:bg-emerald-900/30 border border-transparent hover:border-gold-500/10 whitespace-nowrap"
+          >
+            Foto 41 - 50
+          </button>
+          <button
+            onclick="setActiveTab('favorites')"
+            id="tab-favorites"
+            class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 text-rose-400 hover:text-white bg-rose-950/10 hover:bg-rose-950/30 border border-transparent hover:border-rose-500/20 flex items-center gap-1 whitespace-nowrap"
+          >
+            <i class="fa-solid fa-heart text-[10px]"></i> Favorit Saya
+          </button>
+        </div>
+
+        <!-- Counter Teks -->
+        <div class="text-[10px] sm:text-xs text-gold-400/80 mt-3.5 flex items-center gap-1.5" id="filtered-count-text">
+          <i class="fa-solid fa-circle-check text-[8px] animate-pulse"></i>
+          <span>Menampilkan 50 foto wisuda</span>
+        </div>
+      </div>
+
+      <!-- Photo Grid with Shimmer Skeletons -->
+      <div id="photos-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-4 md:gap-5">
+        <!-- Dynamic Injection with loading skeletons -->
+      </div>
+
+      <!-- No Results message -->
+      <div id="no-photos-msg" class="hidden text-center py-16 bg-emerald-950/20 rounded-2xl border border-dashed border-gold-500/15 px-4 max-w-sm mx-auto">
+        <i class="far fa-image text-gold-500/30 text-4xl mb-3"></i>
+        <p class="text-sm sm:text-base text-emerald-300 font-serif font-semibold">Foto tidak ditemukan</p>
+        <p class="text-[10px] sm:text-xs text-gray-400 mt-1">Coba sesuaikan tab filter Anda atau ketik nomor foto yang valid antara angka 1 hingga 50.</p>
+      </div>
+    </main>
+
+    <!-- Lightbox Modal (Sangat dioptimalkan untuk performa dan interaksi sentuhan di HP) -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/98 hidden flex-col justify-between p-3 sm:p-4 backdrop-blur-md transition-all duration-300 select-none">
+      <!-- Lightbox Header -->
+      <div class="flex items-center justify-between w-full max-w-7xl mx-auto pt-1 sm:pt-2 px-1 z-30">
+        <div class="text-white text-xs sm:text-sm font-medium flex items-center gap-1.5">
+          <span class="bg-gradient-to-r from-gold-600 to-gold-400 text-emerald-950 text-[9px] sm:text-xs px-2 py-0.5 rounded-full font-bold shadow-md" id="lightbox-index">1 / 50</span>
+          <span class="text-gray-300 font-serif truncate max-w-[100px] sm:max-w-none text-[10px] sm:text-sm" id="lightbox-title">Foto Wisuda</span>
+        </div>
+
+        <!-- Controls (Touch-friendly padat) -->
+        <div class="flex items-center gap-1.5 sm:gap-3 text-white">
+          <button onclick="toggleFavoriteInLightbox()" class="p-1.5 sm:p-2 hover:bg-white/5 rounded-full transition-all text-xs sm:text-base text-rose-400" id="lightbox-fav-btn" title="Favoritkan">
+            <i class="far fa-heart" id="lightbox-fav-icon"></i>
+          </button>
+          <button onclick="downloadImage()" class="p-1.5 sm:p-2 hover:text-gold-400 hover:bg-white/5 rounded-full transition-all text-xs sm:text-base" title="Unduh Foto">
+            <i class="fas fa-download"></i>
+          </button>
+          <button onclick="shareImage()" class="p-1.5 sm:p-2 hover:text-gold-400 hover:bg-white/5 rounded-full transition-all text-xs sm:text-base" title="Salin Tautan">
+            <i class="fas fa-link"></i>
+          </button>
+          <button onclick="closeLightbox()" class="p-1.5 sm:p-2 hover:text-gold-400 hover:bg-white/5 rounded-full transition-all text-xl" title="Tutup">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Lightbox Image View (Dengan area tap kiri-kanan khusus mobile) -->
+      <div class="relative flex items-center justify-center flex-grow py-3 w-full">
+        <!-- Invisible/Semi-transparent Left Tap Zone (Memudahkan beralih foto di HP) -->
+        <div onclick="prevImage()" class="absolute left-0 top-0 bottom-0 w-[15%] sm:w-[10%] z-20 cursor-pointer flex items-center justify-start pl-2 sm:pl-4">
+          <span class="text-white/25 hover:text-white transition-colors bg-black/20 p-2 rounded-full hidden sm:block md:hidden">
+            <i class="fas fa-chevron-left text-xs"></i>
+          </span>
+        </div>
+
+        <!-- Left Arrow Button (Hanya terlihat di Desktop / layar besar) -->
+        <button
+          onclick="prevImage()"
+          class="absolute left-4 text-white hover:text-gold-400 transition-colors z-30 p-4 rounded-full bg-black/60 hover:bg-black/80 border border-white/5 hover:border-gold-500/20 shadow-xl hidden md:flex"
+          aria-label="Sebelumnya"
+        >
+          <i class="fas fa-chevron-left text-2xl"></i>
+        </button>
+
+        <!-- Image Container Wrapper -->
+        <div class="max-w-full max-h-[60vh] sm:max-h-[75vh] flex items-center justify-center px-1">
+          <img
+            id="lightbox-img"
+            src=""
+            alt="Wisuda"
+            class="max-w-full max-h-[60vh] sm:max-h-[75vh] object-contain rounded-xl border border-gold-500/15 shadow-[0_0_40px_rgba(245,158,11,0.12)] transition-all duration-300"
+          />
+        </div>
+
+        <!-- Right Arrow Button (Hanya terlihat di Desktop / layar besar) -->
+        <button
+          onclick="nextImage()"
+          class="absolute right-4 text-white hover:text-gold-400 transition-colors z-30 p-4 rounded-full bg-black/60 hover:bg-black/80 border border-white/5 hover:border-gold-500/20 shadow-xl hidden md:flex"
+          aria-label="Berikutnya"
+        >
+          <i class="fas fa-chevron-right text-2xl"></i>
+        </button>
+
+        <!-- Invisible/Semi-transparent Right Tap Zone (Memudahkan beralih foto di HP) -->
+        <div onclick="nextImage()" class="absolute right-0 top-0 bottom-0 w-[15%] sm:w-[10%] z-20 cursor-pointer flex items-center justify-end pr-2 sm:pr-4">
+          <span class="text-white/25 hover:text-white transition-colors bg-black/20 p-2 rounded-full hidden sm:block md:hidden">
+            <i class="fas fa-chevron-right text-xs"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Lightbox Caption & Hint -->
+      <div class="text-center w-full max-w-4xl mx-auto pb-2 sm:pb-4 z-10 px-4">
+        <p class="text-gold-400 text-xs sm:text-sm font-serif mb-1" id="lightbox-caption">Dokumentasi Kenangan Wisuda</p>
+        <p class="text-[8px] sm:text-[10px] text-gray-500 block md:hidden">Geser (swipe) layar atau ketuk sisi kanan/kiri untuk berganti foto.</p>
+        <p class="text-[9px] sm:text-[10px] text-gray-500 hidden md:block">Gunakan tombol panah keyboard atau klik panah untuk beralih foto.</p>
+      </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div
+      id="toast"
+      class="fixed top-4 left-1/2 -translate-x-1/2 bg-emerald-950/95 border border-gold-500/30 text-white px-4 py-2.5 rounded-xl text-xs text-center z-[60] shadow-2xl flex items-center gap-2 transform -translate-y-20 opacity-0 transition-all duration-300 backdrop-blur"
+    >
+      <i class="fas fa-check-circle text-gold-400 text-sm"></i>
+      <span id="toast-message" class="font-medium">Pesan Berhasil</span>
+    </div>
+
+    <!-- Floating Back to Top Button -->
+    <button
+      id="back-to-top"
+      onclick="scrollToTop()"
+      class="fixed bottom-4 right-4 z-30 bg-gold-500 hover:bg-gold-400 text-emerald-950 w-9 h-9 sm:w-12 sm:h-12 rounded-full shadow-2xl flex items-center justify-center border border-gold-400/40 opacity-0 pointer-events-none transition-all duration-300 hover:scale-105 active:scale-95"
+      title="Kembali ke Atas"
+    >
+      <i class="fa-solid fa-arrow-up text-xs sm:text-base"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="bg-emerald-950 border-t border-gold-500/10 py-6 text-center text-[9px] sm:text-xs text-gray-500 relative z-10 px-4">
+      <div class="max-w-3xl mx-auto">
+        <img src="https://i.ibb.co.com/pjv1JqNW/LOGO-PONPES.png" alt="Logo" class="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 opacity-80 object-contain" />
+        <p class="mb-1">&copy; 2026 TPQ AT TANWIR. Seluruh foto dokumentasi dilindungi hak kenangan indah.</p>
+        <p class="text-gold-500/55 font-serif">Mencetak Generasi Robbani, Berilmu & Berakhlaq Mulia</p>
+      </div>
+    </footer>
+
+    <script>
+      // Array berisi 50 URL foto wisuda asli dari pengguna
+      const photoUrls = [
+        "https://i.ibb.co.com/psR54Xg/1.jpg",
+        "https://i.ibb.co.com/Wv9HjD04/2.jpg",
+        "https://i.ibb.co.com/WvVMhhmP/3.jpg",
+        "https://i.ibb.co.com/Wvh8Kc6V/4.jpg",
+        "https://i.ibb.co.com/PGff9BtX/5.jpg",
+        "https://i.ibb.co.com/8DD9dr73/6.jpg",
+        "https://i.ibb.co.com/B2sW7Gdj/7.jpg",
+        "https://i.ibb.co.com/vM6rRp0/8.jpg",
+        "https://i.ibb.co.com/kVVxwVcJ/9.jpg",
+        "https://i.ibb.co.com/GQkdBMz1/10.jpg",
+        "https://i.ibb.co.com/pjYStQz1/11.jpg",
+        "https://i.ibb.co.com/zWybbKJX/12.jpg",
+        "https://i.ibb.co.com/yFwd120q/13.jpg",
+        "https://i.ibb.co.com/RkSY15wv/14.jpg",
+        "https://i.ibb.co.com/pr1ZmsMB/15.jpg",
+        "https://i.ibb.co.com/NnY76vgb/16.jpg",
+        "https://i.ibb.co.com/G4fCVv5f/17.jpg",
+        "https://i.ibb.co.com/ch3kb8VC/18.jpg",
+        "https://i.ibb.co.com/0p7Fh65b/19.jpg",
+        "https://i.ibb.co.com/xtXgDC8b/20.jpg",
+        "https://i.ibb.co.com/b5rYzGf8/21.jpg",
+        "https://i.ibb.co.com/MxKWBZw4/22.jpg",
+        "https://i.ibb.co.com/JFsQCxBZ/23.jpg",
+        "https://i.ibb.co.com/Jj4BS254/24.jpg",
+        "https://i.ibb.co.com/bRb06ZhC/25.jpg",
+        "https://i.ibb.co.com/FbJMcq6L/26.jpg",
+        "https://i.ibb.co.com/67wsW8G0/27.jpg",
+        "https://i.ibb.co.com/93mbLstC/28.jpg",
+        "https://i.ibb.co.com/gbV4z7XB/29.jpg",
+        "https://i.ibb.co.com/Qv5gcSrH/30.jpg",
+        "https://i.ibb.co.com/1YCjM6V8/31.jpg",
+        "https://i.ibb.co.com/0xtmfc7/32.jpg",
+        "https://i.ibb.co.com/d4cwHvRx/33.jpg",
+        "https://i.ibb.co.com/NgrMWscs/34.jpg",
+        "https://i.ibb.co.com/Fq5R6R1W/35.jpg",
+        "https://i.ibb.co.com/2JN2Nc3/36.jpg",
+        "https://i.ibb.co.com/whZ0f6mv/37.jpg",
+        "https://i.ibb.co.com/TMJc5Ghg/38.jpg",
+        "https://i.ibb.co.com/Df00rsDx/39.jpg",
+        "https://i.ibb.co.com/5XzPnhh9/40.jpg",
+        "https://i.ibb.co.com/z9fPF7T/41.jpg",
+        "https://i.ibb.co.com/Kpvq3Lmg/42.jpg",
+        "https://i.ibb.co.com/S7XbsL89/43.jpg",
+        "https://i.ibb.co.com/MkKrCJxz/44.jpg",
+        "https://i.ibb.co.com/4nd7B0hW/45.jpg",
+        "https://i.ibb.co.com/N6XKtNcz/46.jpg",
+        "https://i.ibb.co.com/B5vKKhxv/47.jpg",
+        "https://i.ibb.co.com/Hf8vX7Rg/48.jpg",
+        "https://i.ibb.co.com/67pm0nJ6/49.jpg",
+        "https://i.ibb.co.com/HfW3VF8d/50.jpg",
+      ];
+
+      // Pengelompokan numerik berdasarkan nomor urut foto demi kerapihan navigasi
+      const categories = {
+        range1: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Foto 1 - 10 (indeks 0-9)
+        range2: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19], // Foto 11 - 20 (indeks 10-19)
+        range3: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29], // Foto 21 - 30 (indeks 20-29)
+        range4: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39], // Foto 31 - 40 (indeks 30-39)
+        range5: [40, 41, 42, 43, 44, 45, 46, 47, 48, 49], // Foto 41 - 50 (indeks 40-49)
+      };
+
+      // Indeks pilihan terbaik untuk dijadikan tayangan Slideshow
+      const slideshowIndices = [2, 11, 14, 21, 28, 38, 44, 49];
+
+      let currentSlideIndex = 0;
+      let slideInterval;
+      let activeCategory = "all";
+      let currentLightboxIndex = 0;
+      let filteredIndices = [];
+
+      // Memuat Favorit dari LocalStorage
+      let favorites = JSON.parse(localStorage.getItem("tpq_favorites")) || [];
+
+      // Memuat seluruh komponen visual setelah DOM dimuat sempurna
+      window.onload = function () {
+        renderGallery();
+        setupSlideshow();
+        startSlideshow();
+        setupScrollAnimations();
+        setupBackgroundAnimation(); // Menjalankan animasi canvas background
+
+        // Event listener untuk scroll kemajuan dan tombol back to top
+        window.addEventListener("scroll", handleScrollEvents);
+      };
+
+      // Elegant Canvas Background Animation System
+      function setupBackgroundAnimation() {
+        const canvas = document.getElementById("bg-animation");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+
+        function resizeCanvas() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        // Particle blueprint
+        class Particle {
+          constructor() {
+            this.reset();
+            // Biar partikel tersebar merata di awal, tidak numpuk dari bawah
+            this.y = Math.random() * canvas.height;
+          }
+
+          reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = canvas.height + Math.random() * 20;
+            this.size = Math.random() * 1.8 + 0.3;
+            this.speedY = Math.random() * 0.4 + 0.1;
+            this.speedX = (Math.random() - 0.5) * 0.15;
+            this.alpha = Math.random() * 0.4 + 0.1;
+            this.color = `rgba(251, 191, 36, ${this.alpha})`; // Warna Emas hangat
+            this.shape = Math.random() > 0.85 ? "star" : "circle";
+            this.rotation = Math.random() * Math.PI;
+            this.rotationSpeed = (Math.random() - 0.5) * 0.005;
+          }
+
+          update() {
+            this.y -= this.speedY;
+            this.x += this.speedX;
+            this.rotation += this.rotationSpeed;
+
+            // Reset partikel jika melampaui batas atas atau samping layar
+            if (this.y < -20 || this.x < -20 || this.x > canvas.width + 20) {
+              this.reset();
+            }
+          }
+
+          draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.rotation);
+            ctx.fillStyle = this.color;
+
+            // Efek glow lembut untuk partikel bintang
+            if (this.shape === "star") {
+              ctx.shadowBlur = 5;
+              ctx.shadowColor = "#fbbf24";
+
+              // Membuat struktur gambar Bintang sudut-8 Islami
+              ctx.beginPath();
+              for (let i = 0; i < 8; i++) {
+                ctx.rotate(Math.PI / 4);
+                ctx.lineTo(0, this.size * 2);
+                ctx.lineTo(0, this.size * 0.5);
+              }
+              ctx.closePath();
+              ctx.fill();
+            } else {
+              // Partikel bulat (Debu Emas)
+              ctx.beginPath();
+              ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.restore();
+          }
+        }
+
+        // Inisialisasi kelompok partikel
+        function initParticles() {
+          // Batas jumlah partikel agar tidak memakan RAM berlebih di HP
+          const count = Math.min(45, Math.floor((canvas.width * canvas.height) / 30000));
+          particles = [];
+          for (let i = 0; i < count; i++) {
+            particles.push(new Particle());
+          }
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach((p) => {
+            p.update();
+            p.draw();
+          });
+          requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+
+        // Re-inisialisasi partikel jika ukuran layar berubah secara signifikan
+        window.addEventListener("resize", () => {
+          initParticles();
+        });
+      }
+
+      // Konfigurasi Carousel Slideshow otomatis dengan Efek Ken Burns
+      function setupSlideshow() {
+        const container = document.getElementById("slideshow-container");
+        const indicators = document.getElementById("slideshow-indicators");
+
+        container.innerHTML = "";
+        indicators.innerHTML = "";
+
+        slideshowIndices.forEach((photoIndex, idx) => {
+          // Membuat slide div
+          const slide = document.createElement("div");
+          slide.className = `absolute inset-0 w-full h-full overflow-hidden transition-opacity duration-1000 ease-in-out ${idx === 0 ? "opacity-100 z-10" : "opacity-0 z-0"}`;
+          slide.id = `slide-${idx}`;
+
+          slide.innerHTML = `
+                    <div class="absolute inset-0 shimmer-bg z-0"></div>
+                    <img src="${photoUrls[photoIndex]}" alt="Sorotan Wisuda ${photoIndex + 1}" class="w-full h-full object-cover object-center relative z-10 transition-opacity duration-500 ken-burns-img" onload="this.style.opacity=1" style="opacity:0;" onerror="this.src='https://placehold.co/1200x600/022c22/fbbf24?text=Foto+Terbaik+${photoIndex + 1}'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/25 to-transparent z-10"></div>
+                    <div class="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-6 text-left max-w-xl z-20">
+                        <span class="inline-block bg-gradient-to-r from-gold-600 to-gold-400 text-emerald-950 font-extrabold text-[8px] sm:text-xs px-2 py-0.5 sm:py-1 rounded mb-1 sm:mb-2 shadow">MOMEN #${photoIndex + 1}</span>
+                        <h3 class="text-xs sm:text-xl md:text-2xl font-serif font-bold text-white mb-0.5 sm:mb-1 drop-shadow-md">Dokumentasi Terindah Kelas 6</h3>
+                        <p class="text-[9px] sm:text-xs md:text-sm text-gray-300 drop-shadow line-clamp-2">Mengabadikan senyum syukur momentum kelulusan TPQ AT TANWIR.</p>
+                    </div>
+                `;
+          container.appendChild(slide);
+
+          // Membuat Tombol Indikator
+          const indicator = document.createElement("button");
+          indicator.className = `h-1.5 rounded-full transition-all duration-300 ${idx === 0 ? "bg-gold-400 w-4 sm:w-6" : "bg-white/30 hover:bg-white/50 w-1.5 sm:w-2"}`;
+          indicator.onclick = () => goToSlide(idx);
+          indicator.id = `slide-indicator-${idx}`;
+          indicator.setAttribute("aria-label", `Pilih slide ${idx + 1}`);
+          indicators.appendChild(indicator);
+        });
+      }
+
+      function startSlideshow() {
+        slideInterval = setInterval(() => {
+          let nextSlide = (currentSlideIndex + 1) % slideshowIndices.length;
+          goToSlide(nextSlide);
+        }, 5000);
+      }
+
+      function goToSlide(idx) {
+        if (idx === currentSlideIndex) return;
+
+        const prevSlide = document.getElementById(`slide-${currentSlideIndex}`);
+        const prevIndicator = document.getElementById(`slide-indicator-${currentSlideIndex}`);
+        if (prevSlide) {
+          prevSlide.classList.replace("opacity-100", "opacity-0");
+          prevSlide.classList.replace("z-10", "z-0");
+        }
+        if (prevIndicator) {
+          prevIndicator.classList.replace("bg-gold-400", "bg-white/30");
+          prevIndicator.classList.remove("w-4", "w-6");
+          prevIndicator.classList.add("w-1.5", "w-2");
+        }
+
+        const nextSlide = document.getElementById(`slide-${idx}`);
+        const nextIndicator = document.getElementById(`slide-indicator-${idx}`);
+        if (nextSlide) {
+          nextSlide.classList.replace("opacity-0", "opacity-100");
+          nextSlide.classList.replace("z-0", "z-10");
+        }
+        if (nextIndicator) {
+          nextIndicator.classList.replace("bg-white/30", "bg-gold-400");
+          nextIndicator.classList.remove("w-1.5", "w-2");
+          nextIndicator.classList.add("w-4", "sm:w-6");
+        }
+
+        currentSlideIndex = idx;
+
+        clearInterval(slideInterval);
+        startSlideshow();
+      }
+
+      // Pengaturan Tab Kategori aktif
+      function setActiveTab(category) {
+        activeCategory = category;
+
+        // Perbarui warna status tombol tab
+        const tabs = ["all", "range1", "range2", "range3", "range4", "range5", "favorites"];
+        tabs.forEach((t) => {
+          const btn = document.getElementById(`tab-${t}`);
+          if (btn) {
+            if (t === category) {
+              if (t === "favorites") {
+                btn.className =
+                  "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 bg-rose-500 text-white shadow-md shadow-rose-500/15 border border-rose-500/20 flex items-center gap-1 whitespace-nowrap";
+              } else {
+                btn.className =
+                  "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 bg-gold-500 text-emerald-950 shadow-md shadow-gold-500/15 border border-gold-500/20 whitespace-nowrap";
+              }
+            } else {
+              if (t === "favorites") {
+                btn.className =
+                  "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 text-rose-400 hover:text-white bg-rose-950/10 hover:bg-rose-950/30 border border-transparent hover:border-rose-500/20 flex items-center gap-1 whitespace-nowrap";
+              } else {
+                btn.className =
+                  "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs font-medium transition-all duration-300 text-gray-400 hover:text-white bg-emerald-900/10 hover:bg-emerald-900/30 border border-transparent hover:border-gold-500/10 whitespace-nowrap";
+              }
+            }
+          }
+        });
+
+        filterGallery();
+
+        // Auto scroll tab yang aktif ke tengah di layar HP
+        const activeTabBtn = document.getElementById(`tab-${category}`);
+        if (activeTabBtn) {
+          activeTabBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }
+      }
+
+      // Membangun ulang seluruh isi kisi (Grid) foto dengan efek Shimmer Loading
+      function renderGallery() {
+        const grid = document.getElementById("photos-grid");
+        grid.innerHTML = "";
+
+        photoUrls.forEach((url, index) => {
+          const item = document.createElement("div");
+          item.id = `photo-item-${index}`;
+
+          const isFav = favorites.includes(index);
+
+          // Setup kelas data kategori agar mudah difilter (ditambah efek kilau glass-sweep)
+          item.className =
+            "gallery-item glass-sweep group relative aspect-square overflow-hidden rounded-xl sm:rounded-2xl bg-emerald-950/80 border border-gold-500/10 cursor-pointer hover:border-gold-400/60 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] hover:scale-[1.02] active:scale-95 sm:hover:scale-[1.03] transition-all duration-500 opacity-0 transform translate-y-3";
+
+          item.innerHTML = `
+                    <!-- Skeleton Loader -->
+                    <div class="absolute inset-0 shimmer-bg z-0"></div>
+                    
+                    <!-- Foto Utama -->
+                    <img src="${url}" 
+                         alt="Foto Wisuda ${index + 1}" 
+                         loading="lazy"
+                         class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 z-10 opacity-0 transition-opacity duration-300"
+                         onclick="openLightbox(${index})"
+                         onload="this.classList.remove('opacity-0'); this.nextElementSibling.style.display='none';"
+                         onerror="this.src='https://placehold.co/400x400/022c22/fbbf24?text=Foto+${index + 1}'">
+                    
+                    <!-- Fallback placeholder loader jika terjadi error/delay -->
+                    <div class="absolute inset-0 flex items-center justify-center text-gold-500/20 z-0">
+                        <i class="fa-solid fa-spinner animate-spin text-sm"></i>
+                    </div>
+
+                    <!-- Tombol Hati (Favorit) di atas foto -->
+                    <button onclick="event.stopPropagation(); toggleFavorite(${index})" class="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/65 backdrop-blur border border-white/10 flex items-center justify-center text-[10px] sm:text-xs transition-all active:scale-90 ${isFav ? "text-rose-500 bg-white/95 border-rose-200" : "text-gray-400 hover:text-rose-400"}" id="fav-btn-${index}">
+                        <i class="${isFav ? "fa-solid" : "fa-regular"} fa-heart"></i>
+                    </button>
+
+                    <!-- Overlay Hover yang Indah -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-15 flex items-end p-2.5 sm:p-4" onclick="openLightbox(${index})">
+                        <span class="text-gold-400 text-[10px] sm:text-xs font-serif font-semibold tracking-wide flex items-center gap-1 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                            <i class="fa-solid fa-expand text-[9px]"></i> Lihat Detail
+                        </span>
+                    </div>
+
+                    <!-- Badge Index Nomor Foto -->
+                    <div class="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 bg-black/75 backdrop-blur-md text-gold-400 text-[8px] sm:text-[10px] font-bold px-1.5 py-0.5 sm:px-2 rounded sm:rounded-lg z-20 border border-gold-500/10 shadow group-hover:bg-gold-500 group-hover:text-emerald-950 group-hover:border-transparent transition-colors duration-300" onclick="openLightbox(${index})">
+                        Foto #${index + 1}
+                    </div>
+                `;
+
+          grid.appendChild(item);
+
+          // Menjalankan animasi staggered fade-in secara halus
+          setTimeout(() => {
+            item.classList.remove("opacity-0", "translate-y-3");
+            item.classList.add("opacity-100", "translate-y-0");
+          }, index * 15);
+        });
+
+        // Sinkronisasi data daftar filter pertama kali
+        updateFilteredList();
+      }
+
+      // Sinkronisasi filter pencarian dan tab kategori secara bersamaan
+      function filterGallery() {
+        const searchValue = document.getElementById("gallery-search").value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        filteredIndices = [];
+
+        photoUrls.forEach((url, index) => {
+          const item = document.getElementById(`photo-item-${index}`);
+          if (!item) return;
+
+          const photoNumber = (index + 1).toString();
+
+          // Cek Validasi Tab Kategori
+          let matchCategory = false;
+          if (activeCategory === "all") {
+            matchCategory = true;
+          } else if (activeCategory === "range1" && categories.range1.includes(index)) {
+            matchCategory = true;
+          } else if (activeCategory === "range2" && categories.range2.includes(index)) {
+            matchCategory = true;
+          } else if (activeCategory === "range3" && categories.range3.includes(index)) {
+            matchCategory = true;
+          } else if (activeCategory === "range4" && categories.range4.includes(index)) {
+            matchCategory = true;
+          } else if (activeCategory === "range5" && categories.range5.includes(index)) {
+            matchCategory = true;
+          } else if (activeCategory === "favorites" && favorites.includes(index)) {
+            matchCategory = true;
+          }
+
+          // Cek Validasi Pencarian
+          let matchSearch = false;
+          if (searchValue === "" || photoNumber === searchValue || photoNumber.includes(searchValue)) {
+            matchSearch = true;
+          }
+
+          // Tampilkan jika lulus kedua seleksi filter
+          if (matchCategory && matchSearch) {
+            item.style.display = "block";
+            filteredIndices.push(index);
+            visibleCount++;
+          } else {
+            item.style.display = "none";
+          }
+        });
+
+        // Perbarui jumlah statistik teks filter di layar
+        const textCount = document.getElementById("filtered-count-text");
+        textCount.innerHTML = `<i class="fa-solid fa-circle-check text-[8px] animate-pulse"></i> <span>Menampilkan <b>${visibleCount}</b> foto hasil penyaringan</span>`;
+
+        // Tampilkan pesan kosong jika foto tidak ditemukan
+        const noMsg = document.getElementById("no-photos-msg");
+        if (visibleCount > 0) {
+          noMsg.classList.add("hidden");
+        } else {
+          noMsg.classList.remove("hidden");
+        }
+      }
+
+      function updateFilteredList() {
+        filteredIndices = Array.from({ length: photoUrls.length }, (_, i) => i);
+      }
+
+      // Menyimpan / menghapus favorit
+      function toggleFavorite(index) {
+        const favIndex = favorites.indexOf(index);
+        const btn = document.getElementById(`fav-btn-${index}`);
+
+        if (favIndex === -1) {
+          // Tambah ke favorit
+          favorites.push(index);
+          if (btn) {
+            btn.className =
+              "absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 border border-rose-200 flex items-center justify-center text-[10px] sm:text-xs transition-all text-rose-500 scale-105";
+            btn.innerHTML = `<i class="fa-solid fa-heart"></i>`;
+          }
+          showToast(`Foto #${index + 1} ditambahkan ke Favorit!`);
+        } else {
+          // Hapus dari favorit
+          favorites.splice(favIndex, 1);
+          if (btn) {
+            btn.className =
+              "absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/65 backdrop-blur border border-white/10 flex items-center justify-center text-[10px] sm:text-xs transition-all text-gray-400 hover:text-rose-400";
+            btn.innerHTML = `<i class="fa-regular fa-heart"></i>`;
+          }
+          showToast(`Foto #${index + 1} dihapus dari Favorit.`);
+
+          // Jika sedang berada di tab favorites, langsung sembunyikan dari daftar aktif
+          if (activeCategory === "favorites") {
+            filterGallery();
+          }
+        }
+
+        // Simpan ke local storage
+        localStorage.setItem("tpq_favorites", JSON.stringify(favorites));
+      }
+
+      // Sinkronisasi Tombol Favorit yang ada di Lightbox
+      function toggleFavoriteInLightbox() {
+        toggleFavorite(currentLightboxIndex);
+        updateLightboxFavoriteButton();
+      }
+
+      function updateLightboxFavoriteButton() {
+        const favBtn = document.getElementById("lightbox-fav-btn");
+        const favIcon = document.getElementById("lightbox-fav-icon");
+        const isFav = favorites.includes(currentLightboxIndex);
+
+        if (isFav) {
+          favBtn.title = "Hapus dari Favorit";
+          favIcon.className = "fa-solid fa-heart";
+          favBtn.className = "p-1.5 sm:p-2 hover:bg-white/5 rounded-full transition-all text-xs sm:text-base text-rose-500 scale-105";
+        } else {
+          favBtn.title = "Favoritkan";
+          favIcon.className = "fa-regular fa-heart";
+          favBtn.className = "p-1.5 sm:p-2 hover:bg-white/5 rounded-full transition-all text-xs sm:text-base text-rose-400 hover:text-rose-500";
+        }
+      }
+
+      // Logika Pengoperasian Modal Lightbox
+      function openLightbox(idx) {
+        currentLightboxIndex = idx;
+        updateLightboxContent();
+
+        const lb = document.getElementById("lightbox");
+        lb.classList.remove("hidden");
+        lb.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLightbox() {
+        const lb = document.getElementById("lightbox");
+        lb.classList.remove("flex");
+        lb.classList.add("hidden");
+        document.body.style.overflow = "";
+
+        // Render ulang galeri jika di tab Favorit untuk memperbarui status hati yang tidak terfavorit
+        if (activeCategory === "favorites") {
+          filterGallery();
+        }
+      }
+
+      function updateLightboxContent() {
+        const imgEl = document.getElementById("lightbox-img");
+        const idxEl = document.getElementById("lightbox-index");
+        const titleEl = document.getElementById("lightbox-title");
+        const captionEl = document.getElementById("lightbox-caption");
+        const url = photoUrls[currentLightboxIndex];
+
+        imgEl.classList.add("opacity-0", "scale-95");
+
+        setTimeout(() => {
+          imgEl.src = url;
+          idxEl.textContent = `${currentLightboxIndex + 1} / ${photoUrls.length}`;
+          titleEl.textContent = `Wisuda #${currentLightboxIndex + 1}`;
+
+          // Penentuan Teks Caption Khusus Kategori Numerik
+          let categoryName = "Kelompok Foto";
+          if (categories.range1.includes(currentLightboxIndex)) categoryName = "Foto 1 - 10";
+          else if (categories.range2.includes(currentLightboxIndex)) categoryName = "Foto 11 - 20";
+          else if (categories.range3.includes(currentLightboxIndex)) categoryName = "Foto 21 - 30";
+          else if (categories.range4.includes(currentLightboxIndex)) categoryName = "Foto 31 - 40";
+          else if (categories.range5.includes(currentLightboxIndex)) categoryName = "Foto 41 - 50";
+
+          captionEl.innerHTML = `<span class="text-white opacity-60">Kelompok:</span> ${categoryName} — <span class="text-white">TPQ AT TANWIR</span>`;
+
+          imgEl.classList.remove("opacity-0", "scale-95");
+
+          // Perbarui status tombol favorit di lightbox
+          updateLightboxFavoriteButton();
+        }, 120);
+      }
+
+      function prevImage() {
+        // Berpindah di dalam indeks yang sedang terfilter saat ini demi user-experience yang baik
+        if (filteredIndices.length === 0) return;
+        let curFilteredIdx = filteredIndices.indexOf(currentLightboxIndex);
+        if (curFilteredIdx === -1) {
+          currentLightboxIndex = (currentLightboxIndex - 1 + photoUrls.length) % photoUrls.length;
+        } else {
+          let prevFilteredIdx = (curFilteredIdx - 1 + filteredIndices.length) % filteredIndices.length;
+          currentLightboxIndex = filteredIndices[prevFilteredIdx];
+        }
+        updateLightboxContent();
+      }
+
+      function nextImage() {
+        if (filteredIndices.length === 0) return;
+        let curFilteredIdx = filteredIndices.indexOf(currentLightboxIndex);
+        if (curFilteredIdx === -1) {
+          currentLightboxIndex = (currentLightboxIndex + 1) % photoUrls.length;
+        } else {
+          let nextFilteredIdx = (curFilteredIdx + 1) % filteredIndices.length;
+          currentLightboxIndex = filteredIndices[nextFilteredIdx];
+        }
+        updateLightboxContent();
+      }
+
+      // Penanganan Scroll Progress Bar dan Back to Top Button
+      function handleScrollEvents() {
+        // 1. Scroll Progress Bar
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("scroll-progress").style.width = scrolled + "%";
+
+        // 2. Back to Top Button
+        const backToTopBtn = document.getElementById("back-to-top");
+        if (winScroll > 300) {
+          backToTopBtn.classList.remove("opacity-0", "pointer-events-none");
+          backToTopBtn.classList.add("opacity-100", "pointer-events-all");
+        } else {
+          backToTopBtn.classList.add("opacity-0", "pointer-events-none");
+          backToTopBtn.classList.remove("opacity-100", "pointer-events-all");
+        }
+      }
+
+      function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+
+      // Menampilkan Pesan Toast yang Cantik di Layar Atas
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        const toastMsg = document.getElementById("toast-message");
+        toastMsg.textContent = message;
+
+        toast.classList.remove("opacity-0", "-translate-y-20");
+        toast.classList.add("opacity-100", "translate-y-0");
+
+        setTimeout(() => {
+          toast.classList.remove("opacity-100", "translate-y-0");
+          toast.classList.add("opacity-0", "-translate-y-20");
+        }, 2500);
+      }
+
+      // Menyalin tautan gambar wisuda asli ke clipboard perangkat (Aman iFrame)
+      function shareImage() {
+        const url = photoUrls[currentLightboxIndex];
+        const dummy = document.createElement("input");
+        document.body.appendChild(dummy);
+        dummy.value = url;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+
+        showToast(`Tautan Foto #${currentLightboxIndex + 1} disalin!`);
+      }
+
+      // Aksi pengunduhan mandiri gambar asli lewat peramban baru
+      function downloadImage() {
+        const url = photoUrls[currentLightboxIndex];
+        showToast(`Membuka file asli Wisuda #${currentLightboxIndex + 1}...`);
+        setTimeout(() => {
+          window.open(url, "_blank");
+        }, 600);
+      }
+
+      // Penanganan Animasi Scroll (Intersection Observer)
+      function setupScrollAnimations() {
+        const animatedElements = document.querySelectorAll(".fade-in-up");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+              }
+            });
+          },
+          {
+            threshold: 0.05,
+            rootMargin: "0px 0px -20px 0px",
+          },
+        );
+
+        animatedElements.forEach((element) => {
+          observer.observe(element);
+        });
+      }
+
+      // Dukungan Kendali Tombol Keyboard Fisik
+      document.addEventListener("keydown", (e) => {
+        const lb = document.getElementById("lightbox");
+        if (!lb.classList.contains("hidden")) {
+          if (e.key === "ArrowLeft") prevImage();
+          if (e.key === "ArrowRight") nextImage();
+          if (e.key === "Escape") closeLightbox();
+        }
+      });
+
+      // Dukungan deteksi gestur geser (Swipe) untuk pengguna handphone pada Lightbox
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      const lbEl = document.getElementById("lightbox");
+      lbEl.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        },
+        { passive: true },
+      );
+
+      lbEl.addEventListener(
+        "touchend",
+        (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          // Deteksi Geser Kiri (Selanjutnya)
+          if (touchEndX < touchStartX - 45) {
+            nextImage();
+          }
+          // Deteksi Geser Kanan (Sebelumnya)
+          if (touchEndX > touchStartX + 45) {
+            prevImage();
+          }
+        },
+        { passive: true },
+      );
+    </script>
+  </body>
+</html>
